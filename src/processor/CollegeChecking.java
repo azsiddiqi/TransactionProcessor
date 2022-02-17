@@ -10,6 +10,6 @@ public class CollegeChecking extends Checking {
     } //return the monthly fee
 
     public String getType(){
-        return "CollegeChecking";
+        return "College Checking";
     } //return the account type (class name)
 }

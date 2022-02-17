@@ -13,6 +13,6 @@ public class MoneyMarket extends Savings {
     } //return the monthly fee
 
     public String getType(){
-        return "MoneyMarket";
+        return "Money Market";
     } //return the account type (class name)
 }

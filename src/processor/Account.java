@@ -18,11 +18,17 @@ public abstract class Account {
     }//1232134235
 
     @Override
-    public String toString() { }
+    public String toString() {
+        return this.getType() + "::" + holder.toString() + "::" +
+    }
 
-    public void withdraw(double amount) { }
+    public void withdraw(double amount) {
+        this.balance = this.balance - amount;
+    }
 
-    public void deposit(double amount) { }
+    public void deposit(double amount) {
+        this.balance = this.balance + amount;
+    }
 
     public abstract double monthlyInterest(); //return the monthly interest
     public abstract double fee(); //return the monthly fee
