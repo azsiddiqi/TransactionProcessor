@@ -6,7 +6,16 @@ public abstract class Account {
     protected double balance;
 
     @Override
-    public boolean equals(Object obj) { }
+    public boolean equals(Object obj) {
+        if (obj instanceof Account) {
+            Account secondAccount = (Account) obj;
+            if (holder.equals(secondAccount.holder) && closed == secondAccount.closed && balance ==
+                    secondAccount.balance){
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public String toString() { }

@@ -38,8 +38,9 @@ public class Date implements Comparable<Date> {
 
 
     /**
-     Creates a date object based on a string.
-     @param date string in mm/dd/yyyy format
+     * Creates a date object based on a string.
+     *
+     * @param date string in mm/dd/yyyy format
      */
     public Date(String date) {
         String[] separateDate = date.split("/");
@@ -54,7 +55,7 @@ public class Date implements Comparable<Date> {
 
 
     /**
-     Creates a date object of the current date.
+     * Creates a date object of the current date.
      */
     public Date() {
         Calendar today = Calendar.getInstance();
@@ -65,8 +66,9 @@ public class Date implements Comparable<Date> {
 
 
     /**
-     Checks to see if the created Date object is a valid date.
-     @return true if date is valid and false if date is invalid.
+     * Checks to see if the created Date object is a valid date.
+     *
+     * @return true if date is valid and false if date is invalid.
      */
     public boolean isValid() {
         if (this.year >= 0 && this.year % QUADRENNIAL == 0 && this.month == FEBRUARY && this.day >= FIRST_DAY_OF_MONTH
@@ -87,7 +89,7 @@ public class Date implements Comparable<Date> {
         } else if (this.year >= 0 && this.day >= FIRST_DAY_OF_MONTH && this.day <= MAX_DAYS_OF_MONTH_THIRTY &&
                 (this.month == APRIL || this.month == JUNE || this.month == SEPTEMBER || this.month == NOVEMBER)) {
             return true;
-        } else if (this.year >= 0 &&  this.month == FEBRUARY && this.day >= FIRST_DAY_OF_MONTH && this.day <=
+        } else if (this.year >= 0 && this.month == FEBRUARY && this.day >= FIRST_DAY_OF_MONTH && this.day <=
                 FEBRUARY_NORMAL_MAX_DAYS) {
             return true;
         } else {
@@ -97,9 +99,10 @@ public class Date implements Comparable<Date> {
 
 
     /**
-     Compares date object to another specified date object and returns a value based on its relative position.
-     @param date the specified date object that the original date object is being compared to.
-     @return returns -1 if the first date is before, 1 if it's after, or 0 if both dates are the same.
+     * Compares date object to another specified date object and returns a value based on its relative position.
+     *
+     * @param date the specified date object that the original date object is being compared to.
+     * @return returns -1 if the first date is before, 1 if it's after, or 0 if both dates are the same.
      */
     @Override
     public int compareTo(Date date) {
@@ -124,10 +127,12 @@ public class Date implements Comparable<Date> {
 
 
     /**
-     Converts Date object to a string.
-     @return string of the date in mm/dd/yyyy format.
+     * Converts Date object to a string.
+     *
+     * @return string of the date in mm/dd/yyyy format.
      */
     @Override
     public String toString() {
         return this.month + "/" + this.day + "/" + this.year;
     }
+}
