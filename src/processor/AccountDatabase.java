@@ -28,10 +28,9 @@ public class AccountDatabase {
     }
 
     public boolean open(Account account) {
-        for (int i = 0; i < accounts.length; i++) {
-            if (accounts[i].equals(account)) {
-                return false;
-            }
+        account.closed = false;
+        if (find(account) != NOT_FOUND){
+            return true;
         }
         if (numAcct == accounts.length) {
             grow();
@@ -46,10 +45,7 @@ public class AccountDatabase {
         if (removedAcctIndex == NOT_FOUND) {
             return false;
         }
-        for (int j = removedAcctIndex + 1; j < numAcct; j++) {
-                accounts[j - 1] = accounts[j];
-        }
-        accounts[numAcct - 1] = null;
+        account.closed = true;
         return true;
     }
 
@@ -63,9 +59,24 @@ public class AccountDatabase {
 
     public void print() {
         for (int i = 0; i < numAcct; i++){
-            System.out.println(accounts[i].toString());
+            if (accounts[i].closed == true){
+                System.out.println(accounts[i].toString() + "::" + "CLOSED");
+            } else {
+                System.out.println(accounts[i].toString());
+            }
         }
     }
-    public void printByAccountType() { }
+    public void printByAccountType() {
+        for (int i = 1; i < numAcct; i++) {
+            Account saveAcct = accounts[i];
+            int j = i - 1;
+            while (j >= 0 && accounts[j].getType().compareTo(saveAcct.getType()) > 0) {
+                accounts[j + 1] = accounts[j];
+                j = j - 1;
+            }
+            accounts[j + 1] = saveAcct;
+        }
+        print();
+    }
     public void printFeeAndInterest() { }
 }
