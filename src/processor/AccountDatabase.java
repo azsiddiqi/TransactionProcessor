@@ -62,7 +62,7 @@ public class AccountDatabase {
     public void print() {
         for (int i = 0; i < numAcct; i++){
             if (accounts[i].closed == true){
-                System.out.println(accounts[i].toString() + "::" + "CLOSED");
+                System.out.println(accounts[i].toString() + "::CLOSED");
             } else {
                 System.out.println(accounts[i].toString());
             }
@@ -85,8 +85,14 @@ public class AccountDatabase {
         DecimalFormat PaddingZeroes = new DecimalFormat("#.00");
         for (int i = 0; i < numAcct; i++) {
             Account saveAcct = accounts[i];
-            System.out.println(accounts[i].toString() + "::" + "CLOSED" + PaddingZeroes.format(saveAcct.monthlyInterest())
-                    + PaddingZeroes.format(saveAcct.fee()));
+            if (accounts[i].closed == true){
+                System.out.println(accounts[i].toString() + "::CLOSED" + "::fee " + PaddingZeroes.format(saveAcct.fee())
+                        + "::monthly " + PaddingZeroes.format(saveAcct.monthlyInterest())));
+            }
+            else{
+                System.out.println(accounts[i].toString() + "::fee " + PaddingZeroes.format(saveAcct.fee()) + "::monthly " +
+                        PaddingZeroes.format(saveAcct.monthlyInterest()));
+            }
         }
     }
 }
