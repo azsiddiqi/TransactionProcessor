@@ -87,11 +87,11 @@ public class AccountDatabase {
             Account saveAcct = accounts[i];
             if (accounts[i].closed == true){
                 System.out.println(accounts[i].toString() + "::CLOSED" + "::fee " + PaddingZeroes.format(saveAcct.fee())
-                        + "::monthly " + PaddingZeroes.format(saveAcct.monthlyInterest())));
+                        + "::monthly " + PaddingZeroes.format(saveAcct.monthlyInterest()));
             }
             else{
-                System.out.println(accounts[i].toString() + "::fee " + PaddingZeroes.format(saveAcct.fee()) + "::monthly " +
-                        PaddingZeroes.format(saveAcct.monthlyInterest()));
+                System.out.println(accounts[i].toString() + "::fee " + PaddingZeroes.format(saveAcct.fee()) + "::monthly "
+                        + PaddingZeroes.format(saveAcct.monthlyInterest()));
             }
         }
     }
