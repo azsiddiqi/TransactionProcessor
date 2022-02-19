@@ -1,6 +1,8 @@
 package processor;
 
 
+import java.text.DecimalFormat;
+
 public class AccountDatabase {
 
     private Account [] accounts;
@@ -66,6 +68,7 @@ public class AccountDatabase {
             }
         }
     }
+
     public void printByAccountType() {
         for (int i = 1; i < numAcct; i++) {
             Account saveAcct = accounts[i];
@@ -78,5 +81,13 @@ public class AccountDatabase {
         }
         print();
     }
-    public void printFeeAndInterest() { }
+    public void printFeeAndInterest() {
+        DecimalFormat PaddingZeroes = new DecimalFormat("#.00");
+
+        for (int i = 0; i < numAcct; i++) {
+            Account saveAcct = accounts[i];
+            System.out.println(accounts[i].toString() + "::" + "CLOSED" + PaddingZeroes.format(saveAcct.monthlyInterest())
+                    + PaddingZeroes.format(saveAcct.fee()));
+        }
+    }
 }
