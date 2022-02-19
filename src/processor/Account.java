@@ -22,7 +22,7 @@ public abstract class Account {
     @Override
     public String toString() {
         DecimalFormat PaddingZeroes = new DecimalFormat("#.00");
-        return this.getType() + "::" + holder.toString() + "::" + PaddingZeroes.format(this.balance);
+        return this.getType() + "::" + holder.toString() + "::Balance " + PaddingZeroes.format(this.balance);
     }
 
     public void withdraw(double amount) {
