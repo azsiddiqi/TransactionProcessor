@@ -83,7 +83,6 @@ public class AccountDatabase {
     }
     public void printFeeAndInterest() {
         DecimalFormat PaddingZeroes = new DecimalFormat("#.00");
-
         for (int i = 0; i < numAcct; i++) {
             Account saveAcct = accounts[i];
             System.out.println(accounts[i].toString() + "::" + "CLOSED" + PaddingZeroes.format(saveAcct.monthlyInterest())

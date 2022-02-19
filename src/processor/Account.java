@@ -1,5 +1,7 @@
 package processor;
 
+import java.text.DecimalFormat;
+
 public abstract class Account {
     protected Profile holder;
     protected boolean closed;
@@ -19,7 +21,8 @@ public abstract class Account {
 
     @Override
     public String toString() {
-        return this.getType() + "::" + holder.toString() + "::" +
+        DecimalFormat PaddingZeroes = new DecimalFormat("#.00");
+        return this.getType() + "::" + holder.toString() + "::" + PaddingZeroes.format(this.balance);
     }
 
     public void withdraw(double amount) {
