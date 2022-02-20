@@ -12,6 +12,14 @@ public class AccountDatabase {
     public static final int INCREASE_ARRAY_CAPACITY = 4;
 
 
+    public Account [] getAccounts() {
+        return this.accounts;
+    }
+
+    public int getNumAcct() {
+        return this.numAcct;
+    }
+
     private int find(Account account) {
         for (int i = 0;i < numAcct; i++) {
             if (accounts[i].equals(account)) {
@@ -52,13 +60,27 @@ public class AccountDatabase {
     }
 
     public void deposit(Account account) {
-    Account one = find(account);
-        if (one != -1) {
-            one.deposit(account.balance);
+        int findMatchingAccountIndex = find(account);
+        if (findMatchingAccountIndex == -1 || account.balance <= 0) {
+            return;
         }
+        Account findMatchingAccount = accounts[findMatchingAccountIndex];
+        findMatchingAccount.deposit(account.balance);
+
     }
 
-    public boolean withdraw(Account account) { } //return false if insufficient fund
+    public boolean withdraw(Account account) {
+        int findMatchingAccountIndex = find(account);
+        if (findMatchingAccountIndex == -1) {
+            return false;
+        }
+        Account findMatchingAccount = accounts[findMatchingAccountIndex];
+        if (account.balance > findMatchingAccount.balance) {
+            return false;
+        }
+        findMatchingAccount.withdraw(account.balance);
+        return true;
+    } //return false if insufficient fund
 
     public void print() {
         Account storeAccount;

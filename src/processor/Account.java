@@ -11,8 +11,7 @@ public abstract class Account {
     public boolean equals(Object obj) {
         if (obj instanceof Account) {
             Account secondAccount = (Account) obj;
-            if (holder.equals(secondAccount.holder) && closed == secondAccount.closed && balance ==
-                    secondAccount.balance){
+            if (holder.equals(secondAccount.holder) && closed == secondAccount.closed){
                 return true;
             }
         }
@@ -35,6 +34,10 @@ public abstract class Account {
 
     public void deposit(double amount) {
         this.balance = this.balance + amount;
+    }
+
+    public void updateBalance() {
+        this.balance = this.balance - fee() + monthlyInterest();
     }
 
     public abstract double monthlyInterest(); //return the monthly interest
