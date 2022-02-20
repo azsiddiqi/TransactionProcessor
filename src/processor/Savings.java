@@ -21,4 +21,12 @@ public class Savings extends Account {
     public String getType() {
         return "Savings";
     } //return the account type (class name)
+
+    @Override
+    public String toString() {
+        if (loyalCustomer == true) {
+            return super.toString() + "::Loyal";
+        }
+        return super.toString();
+    }
 }

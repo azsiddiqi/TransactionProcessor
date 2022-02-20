@@ -53,18 +53,28 @@ public class AccountDatabase {
 
     public void deposit(Account account) {
     Account one = find(account);
-    if (one != -1){
-        one.deposit(account.balance);
+        if (one != -1) {
+            one.deposit(account.balance);
+        }
     }
-    }
+
     public boolean withdraw(Account account) { } //return false if insufficient fund
 
     public void print() {
+        Account storeAccount;
         for (int i = 0; i < numAcct; i++){
-            if (accounts[i].closed == true){
-                System.out.println(accounts[i].toString() + "::CLOSED");
-            } else {
-                System.out.println(accounts[i].toString());
+            if (accounts[i] instanceof Checking) {
+                storeAccount = (Checking) accounts[i];
+                System.out.println(storeAccount.toString());
+            } else if (accounts[i] instanceof CollegeChecking) {
+                storeAccount = (CollegeChecking) accounts[i];
+                System.out.println(storeAccount.toString());
+            } else if (accounts[i] instanceof Savings) {
+                storeAccount = (Savings) accounts[i];
+                System.out.println(storeAccount.toString());
+            } else if (accounts[i] instanceof MoneyMarket) {
+                storeAccount = (MoneyMarket) accounts[i];
+                System.out.println(storeAccount.toString());
             }
         }
     }
@@ -81,17 +91,27 @@ public class AccountDatabase {
         }
         print();
     }
+
     public void printFeeAndInterest() {
         DecimalFormat PaddingZeroes = new DecimalFormat("#.00");
-        for (int i = 0; i < numAcct; i++) {
-            Account saveAcct = accounts[i];
-            if (accounts[i].closed == true){
-                System.out.println(accounts[i].toString() + "::CLOSED" + "::fee " + PaddingZeroes.format(saveAcct.fee())
-                        + "::monthly " + PaddingZeroes.format(saveAcct.monthlyInterest()));
-            }
-            else{
-                System.out.println(accounts[i].toString() + "::fee " + PaddingZeroes.format(saveAcct.fee()) + "::monthly "
-                        + PaddingZeroes.format(saveAcct.monthlyInterest()));
+        Account storeAccount;
+        for (int i = 0; i < numAcct; i++){
+            if (accounts[i] instanceof Checking) {
+                storeAccount = (Checking) accounts[i];
+                System.out.println(storeAccount.toString() + "::fee " + PaddingZeroes.format(storeAccount.fee())
+                        + "::monthly " + PaddingZeroes.format(storeAccount.monthlyInterest()));
+            } else if (accounts[i] instanceof CollegeChecking) {
+                storeAccount = (CollegeChecking) accounts[i];
+                System.out.println(storeAccount.toString() + "::fee " + PaddingZeroes.format(storeAccount.fee())
+                        + "::monthly " + PaddingZeroes.format(storeAccount.monthlyInterest()));
+            } else if (accounts[i] instanceof Savings) {
+                storeAccount = (Savings) accounts[i];
+                System.out.println(storeAccount.toString() + "::fee " + PaddingZeroes.format(storeAccount.fee())
+                        + "::monthly " + PaddingZeroes.format(storeAccount.monthlyInterest()));
+            } else if (accounts[i] instanceof MoneyMarket) {
+                storeAccount = (MoneyMarket) accounts[i];
+                System.out.println(storeAccount.toString() + "::fee " + PaddingZeroes.format(storeAccount.fee())
+                        + "::monthly " + PaddingZeroes.format(storeAccount.monthlyInterest()));
             }
         }
     }

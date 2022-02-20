@@ -2,6 +2,12 @@ package processor;
 
 public class MoneyMarket extends Savings {
 
+    protected int numberOfWithdrawl;
+
+    public void setNumberOfWithdrawl() {
+        this.numberOfWithdrawl++;
+    }
+
     public double monthlyInterest() {
         if (loyalCustomer == true) {
             return (0.0095/12);
@@ -17,6 +23,14 @@ public class MoneyMarket extends Savings {
     } //return the monthly fee
 
     public String getType() {
-        return "Money Market";
+        return "Money Market Savings";
     } //return the account type (class name)
+
+    @Override
+    public String toString() {
+        if (closed == true){
+            this.numberOfWithdrawl = 0;
+        }
+        return super.toString() + "::withdrawl: " + this.numberOfWithdrawl;
+    }
 }

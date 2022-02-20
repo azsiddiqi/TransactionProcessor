@@ -22,6 +22,10 @@ public abstract class Account {
     @Override
     public String toString() {
         DecimalFormat PaddingZeroes = new DecimalFormat("#.00");
+        if (this.closed == true) {
+            return this.getType() + "::" + holder.toString() + "::Balance " + PaddingZeroes.format(this.balance)
+                    + "::CLOSED";
+        }
         return this.getType() + "::" + holder.toString() + "::Balance " + PaddingZeroes.format(this.balance);
     }
 
