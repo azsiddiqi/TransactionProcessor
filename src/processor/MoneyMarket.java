@@ -8,6 +8,12 @@ public class MoneyMarket extends Savings {
         this.numberOfWithdrawl++;
     }
 
+    public void checkBalance() {
+        if (this.balance < 2500) {
+            this.loyalCustomer = false;
+        }
+    }
+
     public double monthlyInterest() {
         if (loyalCustomer == true) {
             return (0.0095/12);
@@ -16,7 +22,7 @@ public class MoneyMarket extends Savings {
     } //return the monthly interest
 
     public double fee() {
-        if (balance >= 2500) {
+        if (balance >= 2500 && this.numberOfWithdrawl <= 3) {
             return 0;
         }
         return 10;
