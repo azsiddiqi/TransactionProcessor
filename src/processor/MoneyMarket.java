@@ -4,6 +4,9 @@ public class MoneyMarket extends Savings {
 
     protected int numberOfWithdrawl;
 
+    public MoneyMarket(Profile holder, double balance) {
+        super(holder, balance, 1);
+    }
     public void setNumberOfWithdrawl() {
         this.numberOfWithdrawl++;
     }

@@ -4,6 +4,14 @@ public class Savings extends Account {
 
     protected boolean loyalCustomer;
 
+    public Savings(Profile holder, double balance, int loyalCustomerCode) {
+        super(holder, balance);
+        if (loyalCustomerCode == 0) {
+            this.loyalCustomer = false;
+        } else {
+            this.loyalCustomer = true;
+        }
+    }
     public double monthlyInterest() {
         if (loyalCustomer == true) {
             return (0.0045/12);

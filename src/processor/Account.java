@@ -7,6 +7,12 @@ public abstract class Account {
     protected boolean closed;
     protected double balance;
 
+    public Account(Profile holder, double balance){
+        this.holder = holder;
+        this.closed = false;
+        this.balance = balance;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Account) {

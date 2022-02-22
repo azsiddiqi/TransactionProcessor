@@ -2,6 +2,10 @@ package processor;
 
 public class Checking extends Account {
 
+    public Checking(Profile holder, double balance) {
+        super(holder, balance);
+    }
+
     public double monthlyInterest() {
         return (0.001/12);
     } //return the monthly interest
