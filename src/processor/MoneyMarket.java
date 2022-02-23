@@ -7,9 +7,6 @@ public class MoneyMarket extends Savings {
     public MoneyMarket(Profile holder, double balance) {
         super(holder, balance, 1);
     }
-    public void setNumberOfWithdrawl() {
-        this.numberOfWithdrawl++;
-    }
 
     public void checkBalance() {
         if (this.balance < 2500) {

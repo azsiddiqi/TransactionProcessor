@@ -40,6 +40,18 @@ public class AccountDatabase {
     public boolean open(Account account) {
         account.closed = false;
         if (find(account) != NOT_FOUND){
+            Account isInDatabase = accounts[find(account)];
+            isInDatabase.balance = account.balance;
+            if (isInDatabase instanceof CollegeChecking && account instanceof CollegeChecking) {
+                CollegeChecking updateAccount = (CollegeChecking) isInDatabase;
+                CollegeChecking newInformation = (CollegeChecking) account;
+                updateAccount.campusName = newInformation.campusName;
+            }
+            if (isInDatabase instanceof Savings && account instanceof Savings) {
+                Savings updateAccount = (Savings) isInDatabase;
+                Savings newInformation = (Savings) account;
+                updateAccount.loyalCustomer = newInformation.loyalCustomer;
+            }
             return true;
         }
         if (numAcct == accounts.length) {
@@ -56,12 +68,22 @@ public class AccountDatabase {
             return false;
         }
         account.closed = true;
+        account.balance = 0;
+        if (account instanceof Savings) {
+            Savings closedAccount = (Savings) account;
+            closedAccount.loyalCustomer = false;
+        }
+        if (account instanceof MoneyMarket) {
+            MoneyMarket closedAccount = (MoneyMarket) account;
+            closedAccount.numberOfWithdrawl = 0;
+        }
         return true;
     }
 
     public void deposit(Account account) {
         int findMatchingAccountIndex = find(account);
-        if (findMatchingAccountIndex == -1 || account.balance <= 0) {
+        if (findMatchingAccountIndex == -1) {
+            System.out.println(account.holder + " " + account.getType() + " is not in the database.");
             return;
         }
         Account findMatchingAccount = accounts[findMatchingAccountIndex];
@@ -79,6 +101,10 @@ public class AccountDatabase {
             return false;
         }
         findMatchingAccount.withdraw(account.balance);
+        if (account instanceof MoneyMarket) {
+            MoneyMarket updateWithdrawls = (MoneyMarket) account;
+            updateWithdrawls.numberOfWithdrawl = updateWithdrawls.numberOfWithdrawl + 1;
+        }
         return true;
     } //return false if insufficient fund
 
