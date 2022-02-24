@@ -88,12 +88,12 @@ public class AccountDatabase {
         }
         Account findMatchingAccount = accounts[findMatchingAccountIndex];
         findMatchingAccount.deposit(account.balance);
-
     }
 
     public boolean withdraw(Account account) {
         int findMatchingAccountIndex = find(account);
         if (findMatchingAccountIndex == -1) {
+            System.out.println(account.holder + " " + account.getType() + " is not in the database.");
             return false;
         }
         Account findMatchingAccount = accounts[findMatchingAccountIndex];

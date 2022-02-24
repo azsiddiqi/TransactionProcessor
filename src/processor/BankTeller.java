@@ -64,12 +64,15 @@ public class BankTeller {
         } else if (readStandardInput.next().equals("CC")) {
             CollegeChecking addAccount = new CollegeChecking(new Profile(readStandardInput.next(), readStandardInput.next(), new Date(readStandardInput.next())),
                     0, 0);
+            allAccts.close(addAccount);
         } else if (readStandardInput.next().equals("S")) {
             Savings addAccount = new Savings(new Profile(readStandardInput.next(), readStandardInput.next(), new Date(readStandardInput.next())),
                     0, 0);
+            allAccts.close(addAccount);
         } else if (readStandardInput.next().equals("MM")) {
             MoneyMarket addAccount = new MoneyMarket(new Profile(readStandardInput.next(), readStandardInput.next(), new Date(readStandardInput.next())),
                     0);
+            allAccts.close(addAccount);
         }
     }
     private void depositIntoAccount(Scanner readStandardInput) {
@@ -93,14 +96,15 @@ public class BankTeller {
             MoneyMarket increaseBalance = new MoneyMarket(holder, balance);
             allAccts.deposit(increaseBalance);
         }
+        System.out.println("Deposit - balance updated.");
     }
 
     private void withdrawFromAccount(Scanner readStandardInput) {
         String storeCommand = readStandardInput.next();
         Profile holder = new Profile(readStandardInput.next(), readStandardInput.next(), new Date(readStandardInput.next()));
         int balance = readStandardInput.nextInt();
-        if (balance ) {
-            System.out.println("Deposit - amount cannot be 0 or negative.");
+        if (balance <= 0) {
+            System.out.println("Withdraw - amount cannot be 0 or negative.");
             return;
         }
         if (storeCommand.equals("C")) {
@@ -116,6 +120,7 @@ public class BankTeller {
             MoneyMarket increaseBalance = new MoneyMarket(holder, balance);
             allAccts.deposit(increaseBalance);
         }
+        System.out.println("Withdraw - balance updated.");
     }
     public void run() {
         Scanner readStandardInput = new Scanner(System.in);
