@@ -11,6 +11,10 @@ public class AccountDatabase {
     public static final int NOT_FOUND = -1;
     public static final int INCREASE_ARRAY_CAPACITY = 4;
 
+    public AccountDatabase(){
+        this.accounts = new Account[INCREASE_ARRAY_CAPACITY];
+        this.numAcct = 0;
+    }
 
     public Account [] getAccounts() {
         return this.accounts;
@@ -52,6 +56,7 @@ public class AccountDatabase {
                 Savings newInformation = (Savings) account;
                 updateAccount.loyalCustomer = newInformation.loyalCustomer;
             }
+            isInDatabase.closed = false;
             return true;
         }
         if (numAcct == accounts.length) {
@@ -101,8 +106,8 @@ public class AccountDatabase {
             return false;
         }
         findMatchingAccount.withdraw(account.balance);
-        if (account instanceof MoneyMarket) {
-            MoneyMarket updateWithdrawls = (MoneyMarket) account;
+        if (findMatchingAccount instanceof MoneyMarket) {
+            MoneyMarket updateWithdrawls = (MoneyMarket) findMatchingAccount;
             updateWithdrawls.numberOfWithdrawl = updateWithdrawls.numberOfWithdrawl + 1;
         }
         return true;
@@ -110,20 +115,8 @@ public class AccountDatabase {
 
     public void print() {
         Account storeAccount;
-        for (int i = 0; i < numAcct; i++){
-            if (accounts[i] instanceof Checking) {
-                storeAccount = (Checking) accounts[i];
-                System.out.println(storeAccount.toString());
-            } else if (accounts[i] instanceof CollegeChecking) {
-                storeAccount = (CollegeChecking) accounts[i];
-                System.out.println(storeAccount.toString());
-            } else if (accounts[i] instanceof Savings) {
-                storeAccount = (Savings) accounts[i];
-                System.out.println(storeAccount.toString());
-            } else if (accounts[i] instanceof MoneyMarket) {
-                storeAccount = (MoneyMarket) accounts[i];
-                System.out.println(storeAccount.toString());
-            }
+        for (int i = 0; i < numAcct; i++) {
+            System.out.println(accounts[i].toString());
         }
     }
 
@@ -141,26 +134,28 @@ public class AccountDatabase {
     }
 
     public void printFeeAndInterest() {
-        DecimalFormat PaddingZeroes = new DecimalFormat("#.00");
-        Account storeAccount;
+        DecimalFormat PaddingZeroes = new DecimalFormat("#,##0.00");
         for (int i = 0; i < numAcct; i++){
-            if (accounts[i] instanceof Checking) {
-                storeAccount = (Checking) accounts[i];
-                System.out.println(storeAccount.toString() + "::fee " + PaddingZeroes.format(storeAccount.fee())
-                        + "::monthly " + PaddingZeroes.format(storeAccount.monthlyInterest()));
-            } else if (accounts[i] instanceof CollegeChecking) {
-                storeAccount = (CollegeChecking) accounts[i];
-                System.out.println(storeAccount.toString() + "::fee " + PaddingZeroes.format(storeAccount.fee())
-                        + "::monthly " + PaddingZeroes.format(storeAccount.monthlyInterest()));
-            } else if (accounts[i] instanceof Savings) {
-                storeAccount = (Savings) accounts[i];
-                System.out.println(storeAccount.toString() + "::fee " + PaddingZeroes.format(storeAccount.fee())
-                        + "::monthly " + PaddingZeroes.format(storeAccount.monthlyInterest()));
-            } else if (accounts[i] instanceof MoneyMarket) {
-                storeAccount = (MoneyMarket) accounts[i];
-                System.out.println(storeAccount.toString() + "::fee " + PaddingZeroes.format(storeAccount.fee())
-                        + "::monthly " + PaddingZeroes.format(storeAccount.monthlyInterest()));
-            }
+            System.out.println(accounts[i].toString() + "::fee $" + PaddingZeroes.format(accounts[i].fee())
+                    + "::monthly $" + PaddingZeroes.format(accounts[i].monthlyInterest()));
         }
+    }
+    public static void main(String[] args){
+
+        Checking acc1 = new Checking(new Profile("K","S", new Date("01/02/2002")), 50);
+        CollegeChecking acc2 = new CollegeChecking(new Profile("K","S", new Date("01/02/2002")), 100, 1);
+        Savings acc3 = new Savings(new Profile("K","S", new Date("01/02/2002")), 200, 1);
+        MoneyMarket acc4 = new MoneyMarket(new Profile("K","S", new Date("01/02/2002")), 210);
+
+
+        AccountDatabase acd1 = new AccountDatabase();
+        acd1.open(acc2);
+        acd1.open(acc3);
+        acd1.open(acc1);
+        acd1.open(acc4);
+
+
+
+        acd1.printByAccountType();
     }
 }

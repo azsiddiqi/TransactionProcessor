@@ -14,7 +14,7 @@ public class Savings extends Account {
     }
     public double monthlyInterest() {
         if (loyalCustomer == true) {
-            return (0.0045/12);
+            return (0.0045/12) * this.balance;
         }
         return (0.003/12);
     } //return the monthly interest

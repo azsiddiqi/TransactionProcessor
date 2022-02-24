@@ -17,21 +17,21 @@ public abstract class Account {
     public boolean equals(Object obj) {
         if (obj instanceof Account) {
             Account secondAccount = (Account) obj;
-            if (holder.equals(secondAccount.holder) && closed == secondAccount.closed){
+            if (holder.equals(secondAccount.holder) && this.getType().equals(secondAccount.getType())){
                 return true;
             }
         }
         return false;
-    }//1232134235
+    }
 
     @Override
     public String toString() {
-        DecimalFormat PaddingZeroes = new DecimalFormat("#.00");
+        DecimalFormat PaddingZeroes = new DecimalFormat("#,##0.00");
         if (this.closed == true) {
-            return this.getType() + "::" + holder.toString() + "::Balance " + PaddingZeroes.format(this.balance)
+            return this.getType() + "::" + holder.toString() + "::Balance $" + PaddingZeroes.format(this.balance)
                     + "::CLOSED";
         }
-        return this.getType() + "::" + holder.toString() + "::Balance " + PaddingZeroes.format(this.balance);
+        return this.getType() + "::" + holder.toString() + "::Balance $" + PaddingZeroes.format(this.balance);
     }
 
     public void withdraw(double amount) {

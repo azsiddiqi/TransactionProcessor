@@ -13,7 +13,7 @@ public class Profile {
 
     @Override
     public String toString() {
-        return this.fname + this.lname + dob.toString();
+        return this.fname + " " + this.lname + " " + dob.toString();
     }
 
     public boolean equals(Object obj){

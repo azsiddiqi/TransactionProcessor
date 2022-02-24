@@ -16,7 +16,7 @@ public class CollegeChecking extends Checking {
     }
 
     public double monthlyInterest() {
-        return (0.0025/12);
+        return (0.0025/12) * this.balance;
     } //return the monthly interest
 
     public double fee() {
@@ -29,6 +29,6 @@ public class CollegeChecking extends Checking {
 
     @Override
     public String toString() {
-        return super.toString() + this.campusName;
+        return super.toString() + "::" + this.campusName;
     }
 }

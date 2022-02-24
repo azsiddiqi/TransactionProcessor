@@ -7,7 +7,7 @@ public class Checking extends Account {
     }
 
     public double monthlyInterest() {
-        return (0.001/12);
+        return (0.001/12) * this.balance;
     } //return the monthly interest
 
     public double fee() {
