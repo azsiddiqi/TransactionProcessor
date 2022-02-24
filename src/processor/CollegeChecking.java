@@ -2,7 +2,7 @@ package processor;
 
 public class CollegeChecking extends Checking {
 
-    protected String campusName;
+    protected String campusName;//
 
     public CollegeChecking(Profile holder, double balance, int campusCode) {
         super(holder, balance);

@@ -12,7 +12,7 @@ public class Checking extends Account {
 
     public double fee() {
         if (balance >= 1000) {
-            return 0;
+            return 0;//
         }
         return 25;
     } //return the monthly fee

@@ -7,7 +7,7 @@ public class Savings extends Account {
     public Savings(Profile holder, double balance, int loyalCustomerCode) {
         super(holder, balance);
         if (loyalCustomerCode == 0) {
-            this.loyalCustomer = false;
+            this.loyalCustomer = false;//
         } else {
             this.loyalCustomer = true;
         }

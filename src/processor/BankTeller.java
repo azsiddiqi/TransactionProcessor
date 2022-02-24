@@ -48,7 +48,7 @@ public class BankTeller {
                 System.out.println("Minimum of $2500 to open a MoneyMarket account.");
                 return;
             }
-            MoneyMarket addAccount = new MoneyMarket(holder, balance);
+            MoneyMarket addAccount = new MoneyMarket(holder, balance);//
             allAccts.open(addAccount);
         } else {
             System.out.println("Invalid Command!");
