@@ -103,6 +103,7 @@ public class AccountDatabase {
         }
         Account findMatchingAccount = accounts[findMatchingAccountIndex];
         if (account.balance > findMatchingAccount.balance) {
+            System.out.println("Withdraw - insufficient fund");
             return false;
         }
         findMatchingAccount.withdraw(account.balance);

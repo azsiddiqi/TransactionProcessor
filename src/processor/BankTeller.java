@@ -1,11 +1,16 @@
 package processor;
 import java.util.Scanner;
-import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
-
+import java.lang.NumberFormatException;
 public class BankTeller {
 
     private AccountDatabase allAccts;
+
+    public static final int VALID_NUMBER_OF_INFORMATION_FOR_CHECKING_OR_MONEYMARKET = 6;
+    public static final int VALID_NUMBER_OF_INFORMATION_FOR_COLLEGECHECKING_OR_SAVINGS = 7;
+
+    public BankTeller() {
+        this.allAccts = new AccountDatabase();
+    }
 
     private void updateAndDisplayBalances() {
         for (int i = 0; i < allAccts.getNumAcct(); i++) {
@@ -14,53 +19,52 @@ public class BankTeller {
         allAccts.print();
     }
 
-    private void openAccount(Scanner readStandardInput) {
-        String storeCommand = null;
-        String fname = null;
-        String lname = null;
-        Date dob = null;
-        try {
-            storeCommand = readStandardInput.next();
-            fname = readStandardInput.next();
-            lname = readStandardInput.next();
-            dob = new Date(readStandardInput.next());
-        } catch (NoSuchElementException noData) {
-            System.out.println("Missing Data for opening an account.");
-            return;
+    private void openAccount(String[] splitInformation) {
+        if (splitInformation[1].equals("C") || splitInformation[1].equals("MM")) {
+            if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_CHECKING_OR_MONEYMARKET) {
+                System.out.println("Missing data for opening an account.");
+                return;
+            }
+        } else if (splitInformation[1].equals("CC") || splitInformation[1].equals("S")) {
+            if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_COLLEGECHECKING_OR_SAVINGS) {
+                System.out.println("Missing data for opening an account.");
+                return;
+            }
         }
-        int balance = 0;
-        try {
-            balance = readStandardInput.nextInt();
-        } catch (InputMismatchException invalidBalance) {
-            System.out.println("Not a valid amount.");
-            return;
-        }
+        Date dob = new Date(splitInformation[4]);
         Date today = new Date();
         if (dob.isValid() == false || dob.compareTo(today) >= 0) {
             System.out.println("Date of birth invalid.");
             return;
         }
-        Profile holder = new Profile(fname, lname, dob);
+        Profile holder = new Profile(splitInformation[2], splitInformation[3], dob);
+        double balance = 0;
+        try {
+            balance = Double.parseDouble(splitInformation[5]);
+        } catch (NumberFormatException invalidBalance) {
+            System.out.println("Not a valid amount.");
+            return;
+        }
         if (balance <= 0) {
             System.out.println("Initial deposit cannot be 0 or negative.");
             return;
         }
-        if (storeCommand.equals("C")) {
+        if (splitInformation[1].equals("C")) {
             Checking addAccount = new Checking(holder, balance);
             allAccts.open(addAccount);
-        } else if (storeCommand.equals("CC")) {
-            int campusCode = readStandardInput.nextInt();
-            if (campusCode != 0 || campusCode != 1 || campusCode != 2) {
+        } else if (splitInformation[1].equals("CC")) {
+            int campusCode = Integer.parseInt(splitInformation[6]);
+            if (!(campusCode == 0 || campusCode == 1 || campusCode == 2)) {
                 System.out.println("Invalid campus code.");
                 return;
             }
             CollegeChecking addAccount = new CollegeChecking(holder, balance, campusCode);
             allAccts.open(addAccount);
-        } else if (storeCommand.equals("S")) {
-            int loyalCustomerCode = readStandardInput.nextInt();
+        } else if (splitInformation[1].equals("S")) {
+            int loyalCustomerCode = Integer.parseInt(splitInformation[6]);
             Savings addAccount = new Savings(holder, balance, loyalCustomerCode);
             allAccts.open(addAccount);
-        } else if (storeCommand.equals("MM")) {
+        } else if (splitInformation[1].equals("MM")) {
             if (balance < 2500) {
                 System.out.println("Minimum of $2500 to open a MoneyMarket account.");
                 return;
@@ -71,6 +75,7 @@ public class BankTeller {
             System.out.println("Invalid Command!");
             return;
         }
+        System.out.println("Account opened.");
     }
 
     private void closeAccount(Scanner readStandardInput) {
@@ -142,48 +147,49 @@ public class BankTeller {
     public void run() {
         Scanner readStandardInput = new Scanner(System.in);
         while (readStandardInput.hasNext()) {
-            String storeCommand = readStandardInput.next();
-            if (storeCommand.equals("O")) {
-                openAccount(readStandardInput);
-            } else if (storeCommand.equals("C")) {
+            String storeLine = readStandardInput.nextLine();
+            String[] splitInformation = storeLine.split("\\s+");
+            if (splitInformation[0].equals("O")) {
+                openAccount(splitInformation);
+            } else if (splitInformation[0].equals("C")) {
                 closeAccount(readStandardInput);
-            } else if (storeCommand.equals("D")) {
+            } else if (splitInformation[0].equals("D")) {
                 depositIntoAccount(readStandardInput);
-            } else if (storeCommand.equals("W")) {
+            } else if (splitInformation[0].equals("W")) {
                 withdrawFromAccount(readStandardInput);
-            } else if (storeCommand.equals("P")) {
+            } else if (splitInformation[0].equals("P")) {
                 if (allAccts.getNumAcct() == 0){
                     System.out.println("Account Database is empty!");
-                    return;
+                    continue;
                 }
                 System.out.println("\n*list of accounts in the database*");
                 allAccts.print();
                 System.out.println("*end of list.\n");
-            } else if (storeCommand.equals("PT")) {
+            } else if (splitInformation[0].equals("PT")) {
                 if (allAccts.getNumAcct() == 0){
                     System.out.println("Account Database is empty!");
-                    return;
+                    continue;
                 }
                 System.out.println("\n*list of accounts by account type.");
                 allAccts.printByAccountType();
                 System.out.println("*end of list.\n");
-            } else if (storeCommand.equals("PI")) {
+            } else if (splitInformation[0].equals("PI")) {
                 if (allAccts.getNumAcct() == 0){
                     System.out.println("Account Database is empty!");
-                    return;
+                    continue;
                 }
                 System.out.println("\n*list of accounts with fee and monthly interest");
                 allAccts.printFeeAndInterest();
                 System.out.println("*end of list.\n");
-            } else if (storeCommand.equals("UB")) {
+            } else if (splitInformation[0].equals("UB")) {
                 if (allAccts.getNumAcct() == 0){
                     System.out.println("Account Database is empty!");
-                    return;
+                    continue;
                 }
                 System.out.println("\n*list of accounts with updated balance");
                 updateAndDisplayBalances();
                 System.out.println("*end of list.\n");
-            } else if (storeCommand.equals("Q")) {
+            } else if (splitInformation[0].equals("Q")) {
                 System.out.println("Bank Teller is terminated.");
                 break;
             } else {
@@ -191,5 +197,9 @@ public class BankTeller {
             }
         }
         readStandardInput.close();
+    }
+
+    public static void main(String[] args) {
+
     }
 }
