@@ -7,6 +7,7 @@ public class BankTeller {
 
     public static final int VALID_NUMBER_OF_INFORMATION_FOR_CHECKING_OR_MONEYMARKET = 6;
     public static final int VALID_NUMBER_OF_INFORMATION_FOR_COLLEGECHECKING_OR_SAVINGS = 7;
+    public static final int NOT_FOUND = -1;
 
     public BankTeller() {
         this.allAccts = new AccountDatabase();
@@ -17,6 +18,29 @@ public class BankTeller {
             allAccts.getAccounts()[i].updateBalance();
         }
         allAccts.print();
+    }
+
+    private int findAccount(Account account) {
+        for (int i = 0; i < allAccts.getNumAcct(); i++) {
+            if (allAccts.getAccounts()[i].equals(account)) {
+                return i;
+            }
+        }
+        return NOT_FOUND;
+    }
+
+    private int checkIfSameAccounts(Account account) {
+        for (int i = 0; i < allAccts.getNumAcct(); i++){
+            if (findAccount(account) != NOT_FOUND && allAccts.getAccounts()[findAccount(account)].closed == false) {
+                return i;
+            }
+            if (allAccts.getAccounts()[i].holder.equals(account.holder) && ((allAccts.getAccounts()[i].getType().equals("Checking") &&
+                    account.getType().equals("College Checking")) || (allAccts.getAccounts()[i].getType().equals("College Checking")
+                    && account.getType().equals("Checking")))) {
+                return i;
+            }
+        }
+        return NOT_FOUND;
     }
 
     private void openAccount(String[] splitInformation) {
@@ -51,7 +75,15 @@ public class BankTeller {
         }
         if (splitInformation[1].equals("C")) {
             Checking addAccount = new Checking(holder, balance);
-            allAccts.open(addAccount);
+            int checkIfValid = checkIfSameAccounts(addAccount);
+            if (checkIfValid != -1) {
+                System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
+                return;
+            }
+            boolean test = allAccts.open(addAccount);
+            if (test == true) {
+                System.out.println("Account opened.");
+            }
         } else if (splitInformation[1].equals("CC")) {
             int campusCode = Integer.parseInt(splitInformation[6]);
             if (!(campusCode == 0 || campusCode == 1 || campusCode == 2)) {
@@ -59,23 +91,46 @@ public class BankTeller {
                 return;
             }
             CollegeChecking addAccount = new CollegeChecking(holder, balance, campusCode);
-            allAccts.open(addAccount);
+            int checkIfValid = checkIfSameAccounts(addAccount);
+            if (checkIfValid != -1) {
+                System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
+                return;
+            }
+            boolean test = allAccts.open(addAccount);
+            if (test == true) {
+                System.out.println("Account opened.");
+            }
         } else if (splitInformation[1].equals("S")) {
             int loyalCustomerCode = Integer.parseInt(splitInformation[6]);
             Savings addAccount = new Savings(holder, balance, loyalCustomerCode);
-            allAccts.open(addAccount);
+            int checkIfValid = checkIfSameAccounts(addAccount);
+            if (checkIfValid != -1) {
+                System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
+                return;
+            }
+            boolean test = allAccts.open(addAccount);
+            if (test == true) {
+                System.out.println("Account opened.");
+            }
         } else if (splitInformation[1].equals("MM")) {
             if (balance < 2500) {
                 System.out.println("Minimum of $2500 to open a MoneyMarket account.");
                 return;
             }
             MoneyMarket addAccount = new MoneyMarket(holder, balance);
-            allAccts.open(addAccount);
+            int checkIfValid = checkIfSameAccounts(addAccount);
+            if (checkIfValid != -1) {
+                System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
+                return;
+            }
+            boolean test = allAccts.open(addAccount);
+            if (test == true) {
+                System.out.println("Account opened.");
+            }
         } else {
             System.out.println("Invalid Command!");
             return;
         }
-        System.out.println("Account opened.");
     }
 
     private void closeAccount(Scanner readStandardInput) {

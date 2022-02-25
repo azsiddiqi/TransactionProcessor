@@ -19,7 +19,7 @@ public class Profile {
     public boolean equals(Object obj){
         if (obj instanceof Profile){
             Profile secondProfile = (Profile) obj;
-            if (this.fname.equals(secondProfile.fname) && this.lname.equals(secondProfile.lname)
+            if (this.fname.toUpperCase().equals(secondProfile.fname.toUpperCase()) && this.lname.toUpperCase().equals(secondProfile.lname.toUpperCase())
                 && this.dob.compareTo(secondProfile.dob) == 0){
                 return true;
             }

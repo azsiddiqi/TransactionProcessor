@@ -25,7 +25,7 @@ public class AccountDatabase {
     }
 
     private int find(Account account) {
-        for (int i = 0;i < numAcct; i++) {
+        for (int i = 0; i < numAcct; i++) {
             if (accounts[i].equals(account)) {
                 return i;
             }
@@ -42,8 +42,7 @@ public class AccountDatabase {
     }
 
     public boolean open(Account account) {
-        account.closed = false;
-        if (find(account) != NOT_FOUND){
+        if (find(account) != NOT_FOUND && accounts[find(account)].closed == true){
             Account isInDatabase = accounts[find(account)];
             isInDatabase.balance = account.balance;
             if (isInDatabase instanceof CollegeChecking && account instanceof CollegeChecking) {
@@ -57,7 +56,7 @@ public class AccountDatabase {
                 updateAccount.loyalCustomer = newInformation.loyalCustomer;
             }
             isInDatabase.closed = false;
-            return true;
+            return false;
         }
         if (numAcct == accounts.length) {
             grow();
