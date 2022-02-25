@@ -1,5 +1,7 @@
 package processor;
 import java.util.Scanner;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 
 public class BankTeller {
 
@@ -13,17 +15,32 @@ public class BankTeller {
     }
 
     private void openAccount(Scanner readStandardInput) {
-        String storeCommand = readStandardInput.next();
-        String fname = readStandardInput.next();
-        String lname = readStandardInput.next();
-        Date dob = new Date(readStandardInput.next());
+        String storeCommand = null;
+        String fname = null;
+        String lname = null;
+        Date dob = null;
+        try {
+            storeCommand = readStandardInput.next();
+            fname = readStandardInput.next();
+            lname = readStandardInput.next();
+            dob = new Date(readStandardInput.next());
+        } catch (NoSuchElementException noData) {
+            System.out.println("Missing Data for opening an account.");
+            return;
+        }
+        int balance = 0;
+        try {
+            balance = readStandardInput.nextInt();
+        } catch (InputMismatchException invalidBalance) {
+            System.out.println("Not a valid amount.");
+            return;
+        }
         Date today = new Date();
         if (dob.isValid() == false || dob.compareTo(today) >= 0) {
             System.out.println("Date of birth invalid.");
             return;
         }
         Profile holder = new Profile(fname, lname, dob);
-        int balance = readStandardInput.nextInt();
         if (balance <= 0) {
             System.out.println("Initial deposit cannot be 0 or negative.");
             return;
@@ -48,7 +65,7 @@ public class BankTeller {
                 System.out.println("Minimum of $2500 to open a MoneyMarket account.");
                 return;
             }
-            MoneyMarket addAccount = new MoneyMarket(holder, balance);//
+            MoneyMarket addAccount = new MoneyMarket(holder, balance);
             allAccts.open(addAccount);
         } else {
             System.out.println("Invalid Command!");

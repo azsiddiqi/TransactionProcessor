@@ -10,7 +10,7 @@ public abstract class Account {
     public Account(Profile holder, double balance){
         this.holder = holder;
         this.closed = false;
-        this.balance = balance;//
+        this.balance = balance;
     }
 
     @Override
