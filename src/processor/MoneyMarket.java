@@ -8,12 +8,6 @@ public class MoneyMarket extends Savings {
         super(holder, balance, 1);
     }
 
-    public void checkBalance() {
-        if (this.balance < 2500) {
-            this.loyalCustomer = false;
-        }
-    }
-
     public double monthlyInterest() {
         if (loyalCustomer == true) {
             return (0.0095/12) * this.balance;
