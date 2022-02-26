@@ -1,6 +1,7 @@
 package processor;
 import java.util.Scanner;
 import java.lang.NumberFormatException;
+
 public class BankTeller {
 
     private AccountDatabase allAccts;
@@ -23,35 +24,8 @@ public class BankTeller {
         return NOT_FOUND;
     }
 
-    private void checkNumberOfAccountsAndPrint(String[] splitInformation) {
-        if (allAccts.getNumAcct() == 0){
-            System.out.println("Account Database is empty!");
-            return;
-        }
-        if (splitInformation[0].equals("P")) {
-            System.out.println("\n*list of accounts in the database*");
-            allAccts.print();
-            System.out.println("*end of list*\n");
-        } else if (splitInformation[0].equals("PT")) {
-            System.out.println("\n*list of accounts by account type.");
-            allAccts.printByAccountType();
-            System.out.println("*end of list.\n");
-        } else if (splitInformation[0].equals("PI")) {
-            System.out.println("\n*list of accounts with fee and monthly interest");
-            allAccts.printFeeAndInterest();
-            System.out.println("*end of list.\n");
-        } else if (splitInformation[0].equals("UB")) {
-            for (int i = 0; i < allAccts.getNumAcct(); i++) {
-                allAccts.getAccounts()[i].updateBalance();
-            }
-            System.out.println("\n*list of accounts with updated balance");
-            allAccts.print();
-            System.out.println("*end of list.\n");
-        }
-
-    }
     private boolean sameAccountsChecker(Account account) {
-        for (int i = 0; i < allAccts.getNumAcct(); i++){
+        for (int i = 0; i < allAccts.getNumAcct(); i++) {
             if (accountFinder(account) != NOT_FOUND && allAccts.getAccounts()[accountFinder(account)].closed == false) {
                 System.out.println(account.holder.toString() + " same account(type) is in the database.");
                 return true;
@@ -115,6 +89,33 @@ public class BankTeller {
             return false;
         }
         return true;
+    }
+
+    private void checkNumberOfAccountsAndPrint(String[] splitInformation) {
+        if (allAccts.getNumAcct() == 0) {
+            System.out.println("Account Database is empty!");
+            return;
+        }
+        if (splitInformation[0].equals("P")) {
+            System.out.println("\n*list of accounts in the database*");
+            allAccts.print();
+            System.out.println("*end of list*\n");
+        } else if (splitInformation[0].equals("PT")) {
+            System.out.println("\n*list of accounts by account type.");
+            allAccts.printByAccountType();
+            System.out.println("*end of list.\n");
+        } else if (splitInformation[0].equals("PI")) {
+            System.out.println("\n*list of accounts with fee and monthly interest");
+            allAccts.printFeeAndInterest();
+            System.out.println("*end of list.\n");
+        } else if (splitInformation[0].equals("UB")) {
+            for (int i = 0; i < allAccts.getNumAcct(); i++) {
+                allAccts.getAccounts()[i].updateBalance();
+            }
+            System.out.println("\n*list of accounts with updated balance");
+            allAccts.print();
+            System.out.println("*end of list.\n");
+        }
     }
 
     private void openAccount(String[] splitInformation) {
@@ -200,10 +201,10 @@ public class BankTeller {
             increaseBalance = new MoneyMarket(holder, Double.parseDouble(splitInformation[5]));
         }
         int findMatchingAccountIndex = accountFinder(increaseBalance);
-        if (findMatchingAccountIndex == -1 && !(splitInformation[1].equals("MM"))) {
+        if (findMatchingAccountIndex == NOT_FOUND && !(splitInformation[1].equals("MM"))) {
             System.out.println(increaseBalance.holder + " " + increaseBalance.getType() + " is not in the database.");
             return;
-        } else if (findMatchingAccountIndex == -1 && splitInformation[1].equals("MM")) {
+        } else if (findMatchingAccountIndex == NOT_FOUND && splitInformation[1].equals("MM")) {
             System.out.println(increaseBalance.holder + " Money Market is not in the database.");
             return;
         }
@@ -228,10 +229,10 @@ public class BankTeller {
             decreaseBalance = new MoneyMarket(holder, Double.parseDouble(splitInformation[5]));
         }
         int findMatchingAccountIndex = accountFinder(decreaseBalance);
-        if (findMatchingAccountIndex == -1 && !(splitInformation[1].equals("MM"))) {
+        if (findMatchingAccountIndex == NOT_FOUND && !(splitInformation[1].equals("MM"))) {
             System.out.println(decreaseBalance.holder + " " + decreaseBalance.getType() + " is not in the database.");
             return;
-        } else if (findMatchingAccountIndex == -1 && splitInformation[1].equals("MM")) {
+        } else if (findMatchingAccountIndex == NOT_FOUND && splitInformation[1].equals("MM")) {
             System.out.println(decreaseBalance.holder + " Money Market is not in the database.");
             return;
         }

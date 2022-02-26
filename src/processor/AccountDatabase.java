@@ -12,7 +12,7 @@ public class AccountDatabase {
     public static final int INCREASE_ARRAY_CAPACITY = 4;
     public static final int MINIMUM_AMOUNT_FOR_MONEYMARKET_LOYAL_CUSTOMER = 2500;
 
-    public AccountDatabase(){
+    public AccountDatabase() {
         this.accounts = new Account[INCREASE_ARRAY_CAPACITY];
         this.numAcct = 0;
     }
@@ -36,14 +36,14 @@ public class AccountDatabase {
 
     private void grow() {
         Account[] increasedSize = new Account[accounts.length + INCREASE_ARRAY_CAPACITY];
-        for (int i = 0; i < numAcct; i++){
+        for (int i = 0; i < numAcct; i++) {
             increasedSize[i] = accounts[i];
         }
         accounts = increasedSize;
     }
 
     public boolean open(Account account) {
-        if (find(account) != NOT_FOUND && accounts[find(account)].closed == true){
+        if (find(account) != NOT_FOUND && accounts[find(account)].closed == true) {
             Account isInDatabase = accounts[find(account)];
             isInDatabase.balance = account.balance;
             if (isInDatabase instanceof CollegeChecking && account instanceof CollegeChecking) {
@@ -125,7 +125,7 @@ public class AccountDatabase {
 
     public void printFeeAndInterest() {
         DecimalFormat PaddingZeroes = new DecimalFormat("#,##0.00");
-        for (int i = 0; i < numAcct; i++){
+        for (int i = 0; i < numAcct; i++) {
             System.out.println(accounts[i].toString() + "::fee $" + PaddingZeroes.format(accounts[i].fee())
                     + "::monthly interest $" + PaddingZeroes.format(accounts[i].monthlyInterest()));
         }
