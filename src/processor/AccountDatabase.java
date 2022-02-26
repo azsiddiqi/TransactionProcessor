@@ -20,7 +20,7 @@ public class AccountDatabase {
     public static final int MINIMUM_AMOUNT_FOR_MONEY_MARKET_LOYAL_CUSTOMER = 2500;
 
     /**
-     *
+     *Creates an account database with an initial capacity of 4 and no accounts stored.
      */
     public AccountDatabase() {
         this.accounts = new Account[INCREASE_ARRAY_CAPACITY];
@@ -28,25 +28,25 @@ public class AccountDatabase {
     }
 
     /**
-     *
-     * @return
+     Returns array with all accounts in the database.
+     @return array with all accounts in the database.
      */
     public Account [] getAccounts() {
         return this.accounts;
     }
 
     /**
-     *
-     * @return
+     Returns number of accounts in the database.
+     @return number of accounts in the database.
      */
     public int getNumAcct() {
         return this.numAcct;
     }
 
     /**
-     *
-     * @param account
-     * @return
+     Finds a specified account object within the database and returns its index within the array.
+     @param account account that is being searched for
+     @return index of the account within the array.
      */
     private int find(Account account) {
         for (int i = 0; i < numAcct; i++) {
@@ -58,7 +58,7 @@ public class AccountDatabase {
     }
 
     /**
-     *
+     Increases the size of the accounts array by 4.
      */
     private void grow() {
         Account[] increasedSize = new Account[accounts.length + INCREASE_ARRAY_CAPACITY];
@@ -69,9 +69,9 @@ public class AccountDatabase {
     }
 
     /**
-     *
-     * @param account
-     * @return
+     Opens a new account within the account database and also capable of reopening a previously closed account.
+     * @param account the account that is being opened.
+     * @return false if the account is being reopened and true if the account is being opened for the first time.
      */
     public boolean open(Account account) {
         if (find(account) != NOT_FOUND && accounts[find(account)].closed == true) {
@@ -99,9 +99,9 @@ public class AccountDatabase {
     }
 
     /**
-     *
-     * @param account
-     * @return
+     Closes an account within th account database and resets balance and special conditions.
+     @param account the account that is being closed.
+     @return true if the account has been successfully closed.
      */
     public boolean close(Account account) {
         int removedAcctIndex = find(account);
@@ -120,8 +120,8 @@ public class AccountDatabase {
     }
 
     /**
-     *
-     * @param account
+     Deposits a specified balance into a specified account.
+     @param account account that is being deposited into with the balance that is to be deposited.
      */
     public void deposit(Account account) {
         Account findMatchingAccount = accounts[find(account)];
@@ -129,9 +129,9 @@ public class AccountDatabase {
     }
 
     /**
-     *
-     * @param account
-     * @return
+     Withdraws a specificed balance from a specified account.
+     @param account accountthis is being withdrawn from with the balance that is being withdrawn.
+     @return false if insufficient funds and true otherwise.
      */
     public boolean withdraw(Account account) {
         Account findMatchingAccount = accounts[find(account)];
@@ -147,7 +147,7 @@ public class AccountDatabase {
     } //return false if insufficient fund
 
     /**
-     *
+     Print out accounts within the database in the order that they are currently in.
      */
     public void print() {
         for (int i = 0; i < numAcct; i++) {
@@ -156,7 +156,7 @@ public class AccountDatabase {
     }
 
     /**
-     *
+     Print out the accounts in the database ordered by account type.
      */
     public void printByAccountType() {
         for (int i = 0; i < numAcct - 1; i++) {
@@ -174,7 +174,7 @@ public class AccountDatabase {
     }
 
     /**
-     *
+     Print out the accounts within the database and the respective fees and monthly interest accrued for each account.
      */
     public void printFeeAndInterest() {
         DecimalFormat PaddingZeroes = new DecimalFormat("#,##0.00");
