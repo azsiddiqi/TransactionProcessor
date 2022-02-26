@@ -51,7 +51,7 @@ public class AccountDatabase {
     /**
      Finds a specified account object within the database and returns its index within the array.
      @param account account that is being searched for
-     @return index of the account within the array and -1 when the account is not found.
+     @return index of the account within the array, and -1 if the account is not found.
      */
     private int find(Account account) {
         for (int i = 0; i < numAcct; i++) {
@@ -77,7 +77,7 @@ public class AccountDatabase {
 
     /**
      Opens a new account within the account database and also capable of reopening a previously closed account.
-     * @param account the account that is being opened.
+     * @param account the account that is being opened or reopened.
      * @return false if the account is being reopened and true if the account is being opened for the first time.
      */
     public boolean open(Account account) {
@@ -107,7 +107,8 @@ public class AccountDatabase {
 
 
     /**
-     Closes an account within th account database and resets balance and special conditions.
+     Closes an account within the account database, resets the balance to 0, removes loyal customer status, and sets the
+     number of withdrawls to 0 for money market accounts.
      @param account the account that is being closed.
      @return true if the account has been successfully closed.
      */
@@ -139,8 +140,8 @@ public class AccountDatabase {
 
 
     /**
-     Withdraws a specificed balance from a specified account.
-     @param account accountthis is being withdrawn from with the balance that is being withdrawn.
+     Withdraws a specified balance from a specified account.
+     @param account account that is being withdrawn from with the balance that is being withdrawn.
      @return false if insufficient funds and true otherwise.
      */
     public boolean withdraw(Account account) {
