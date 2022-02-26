@@ -46,7 +46,7 @@ public class AccountDatabase {
     /**
      Finds a specified account object within the database and returns its index within the array.
      @param account account that is being searched for
-     @return index of the account within the array.
+     @return index of the account within the array and -1 when the account is not found.
      */
     private int find(Account account) {
         for (int i = 0; i < numAcct; i++) {
