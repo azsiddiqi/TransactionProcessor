@@ -6,8 +6,8 @@ public class BankTeller {
 
     private AccountDatabase allAccts;
 
-    public static final int VALID_NUMBER_OF_INFORMATION_FOR_OPENING_CHECKING_OR_MONEYMARKET = 6;
-    public static final int VALID_NUMBER_OF_INFORMATION_FOR_OPENING_COLLEGECHECKING_OR_SAVINGS = 7;
+    public static final int VALID_NUMBER_OF_INFORMATION_FOR_OPENING_CHECKING_OR_MONEY_MARKET = 6;
+    public static final int VALID_NUMBER_OF_INFORMATION_FOR_OPENING_COLLEGE_CHECKING_OR_SAVINGS = 7;
     public static final int VALID_NUMBER_OF_INFORMATION_FOR_CLOSING_ACCOUNT = 5;
     public static final int NOT_FOUND = -1;
 
@@ -44,12 +44,12 @@ public class BankTeller {
 
     private boolean validInformationChecker(String[] splitInformation) {
         if (splitInformation[1].equals("C") || splitInformation[1].equals("MM")) {
-            if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_OPENING_CHECKING_OR_MONEYMARKET) {
+            if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_OPENING_CHECKING_OR_MONEY_MARKET) {
                 System.out.println("Missing data for opening an account.");
                 return false;
             }
         } else if (splitInformation[1].equals("CC") || splitInformation[1].equals("S")) {
-            if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_OPENING_COLLEGECHECKING_OR_SAVINGS) {
+            if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_OPENING_COLLEGE_CHECKING_OR_SAVINGS) {
                 System.out.println("Missing data for opening an account.");
                 return false;
             }

@@ -11,11 +11,13 @@ package processor;
 public class Savings extends Account {
 
     protected boolean loyalCustomer;
+
     public static final double LOYAL_SAVINGS_MONTHLY_INTEREST_RATE = 0.0045/12;
     public static final double REGULAR_SAVINGS_MONTHLY_INTEREST_RATE = 0.003/12;
-    public static final double SAVINGS_FEE_THRESHOLD = 300;
-    public static final double SAVINGS_FEE_IF_BALANCE_ABOVE_THREE_HUNDRED = 0;
-    public static final double SAVINGS_FEE_IF_BALANCE_UNDER_THREE_HUNDRED = 6;
+    public static final int SAVINGS_FEE_WAIVED_THRESHOLD = 300;
+    public static final int SAVINGS_FEE_IF_BALANCE_ABOVE_THREE_HUNDRED = 0;
+    public static final int SAVINGS_FEE_IF_BALANCE_UNDER_THREE_HUNDRED = 6;
+    public static final int NOT_LOYAL = 0;
 
     /**
      Creates a Savings object based on a Profile object, a double denoting account balance, and an integer denoting
@@ -26,7 +28,7 @@ public class Savings extends Account {
      */
     public Savings(Profile holder, double balance, int loyalCustomerCode) {
         super(holder, balance);
-        if (loyalCustomerCode == 0) {
+        if (loyalCustomerCode == NOT_LOYAL) {
             this.loyalCustomer = false;
         } else {
             this.loyalCustomer = true;
@@ -50,7 +52,7 @@ public class Savings extends Account {
      @return the fee in USD to keep the savings account open.
      */
     public double fee() {
-        if (balance >= SAVINGS_FEE_THRESHOLD) {
+        if (balance >= SAVINGS_FEE_WAIVED_THRESHOLD) {
             return SAVINGS_FEE_IF_BALANCE_ABOVE_THREE_HUNDRED;
         }
         return SAVINGS_FEE_IF_BALANCE_UNDER_THREE_HUNDRED;

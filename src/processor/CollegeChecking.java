@@ -13,10 +13,10 @@ public class CollegeChecking extends Checking {
     protected String campusName;
 
     public static final double COLLEGE_CHECKING_MONTHLY_INTEREST_RATE = 0.0025/12;
-    public static final double NEW_BRUNSWICK_CAMPUS_CODE = 0;
-    public static final double NEWARK_CAMPUS_CODE = 1;
-    public static final double CAMDEN_CAMPUS_CODE = 2;
-    public static final double COLLEGE_CHECKING_FEE = 0;
+    public static final int NEW_BRUNSWICK_CAMPUS_CODE = 0;
+    public static final int NEWARK_CAMPUS_CODE = 1;
+    public static final int CAMDEN_CAMPUS_CODE = 2;
+    public static final int COLLEGE_CHECKING_FEE = 0;
 
     /**
      Creates a CollegeChecking object based on a Profile object, a double denoting account balance, and an integer

@@ -9,9 +9,9 @@ package processor;
 public class Checking extends Account {
 
     public static final double CHECKING_MONTHLY_INTEREST_RATE = 0.001/12;
-    public static final double CHECKING_FEE_IF_BALANCE_ABOVE_ONE_THOUSAND = 0;
-    public static final double CHECKING_FEE_THRESHOLD = 1000;
-    public static final double CHECKING_FEE_IF_BALANCE_BELOW_ONE_THOUSAND = 25;
+    public static final int CHECKING_FEE_IF_BALANCE_ABOVE_ONE_THOUSAND = 0;
+    public static final int CHECKING_FEE_WAIVED_THRESHOLD = 1000;
+    public static final int CHECKING_FEE_IF_BALANCE_BELOW_ONE_THOUSAND = 25;
 
     /**
      Creates a checking account object based off of a Profile object and a specified account balance.
@@ -36,7 +36,7 @@ public class Checking extends Account {
      @return the fee in USD to keep the checking account open.
      */
     public double fee() {
-        if (balance >= CHECKING_FEE_THRESHOLD) {
+        if (balance >= CHECKING_FEE_WAIVED_THRESHOLD) {
             return CHECKING_FEE_IF_BALANCE_ABOVE_ONE_THOUSAND;//
         }
         return CHECKING_FEE_IF_BALANCE_BELOW_ONE_THOUSAND;
