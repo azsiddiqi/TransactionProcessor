@@ -2,6 +2,14 @@ package processor;
 import java.util.Scanner;
 import java.lang.NumberFormatException;
 
+/**
+ This class contains and modifies an AccountDatabase object based on the commands and information obtained from standard
+ input. These commands may request to open an account, which may be done after checking that the inputted information is
+ valid. These commands may also request to close an account, deposit into an account, withdraw from an account, and
+ print all the accounts in various ways. There is also a BankTeller constructor for initializing an AccountDatabase
+ object, as well as various helper methods.
+ @author Karan Patel, Azaan Siddiqi
+ */
 public class BankTeller {
 
     private AccountDatabase allAccts;
@@ -11,6 +19,10 @@ public class BankTeller {
     public static final int VALID_NUMBER_OF_INFORMATION_FOR_CLOSING_ACCOUNT = 5;
     public static final int NOT_FOUND = -1;
 
+    /**
+     Constructor for a BankTeller object that instantiates an AccountDatabase object. This AccountDatabase object will
+     keep track of all the accounts in the database.
+     */
     public BankTeller() {
         this.allAccts = new AccountDatabase();
     }
@@ -240,6 +252,15 @@ public class BankTeller {
         System.out.println("Withdraw - balance updated.");
     }
 
+    /**
+     Reads in commands and information from standard input, and modifies the AccountDatabase object based on these
+     instructions. If "O" is read followed by information, it will try to create, open, and add an account to the AccountDatabase
+     object if the information is valid. If "C" is read followed by information, it will try to close an account. If "D" is read,
+     it will try to deposit into an account. If "W" is read, it will try to withdraw from an account. If "P" is read,
+     it will try to print the accounts in the AccountDatabase object in the order given. If "PT" is read, it will try to
+     print by account type. If "PI" is read, it will try to print by fee and monthly interests. If "UB" is read, it will
+     update the balances for the accounts and print in the order given. If "Q" is read, the program will come to an end.
+     */
     public void run() {
         System.out.println("Bank Teller is running.");
         Scanner readStandardInput = new Scanner(System.in);
