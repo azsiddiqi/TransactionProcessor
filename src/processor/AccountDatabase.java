@@ -3,6 +3,13 @@ package processor;
 
 import java.text.DecimalFormat;
 
+/**
+ This class creates an Account object based off of a Profile object and a double denoting the balance of an account.
+ It also has an equals method to check to see if two accounts are the same and a toString method which returns the type
+ of the account, the account holder, and the balance of the account. Along with this there are three abstract methods which
+ extend to the Account class's subclasses that return the monthly interest, the monthly fee, and the type of the account.
+ @author Azaan Siddiqi, Karan Patel
+ */
 public class AccountDatabase {
 
     private Account [] accounts;
@@ -10,21 +17,37 @@ public class AccountDatabase {
 
     public static final int NOT_FOUND = -1;
     public static final int INCREASE_ARRAY_CAPACITY = 4;
-    public static final int MINIMUM_AMOUNT_FOR_MONEYMARKET_LOYAL_CUSTOMER = 2500;
+    public static final int MINIMUM_AMOUNT_FOR_MONEY_MARKET_LOYAL_CUSTOMER = 2500;
 
+    /**
+     *
+     */
     public AccountDatabase() {
         this.accounts = new Account[INCREASE_ARRAY_CAPACITY];
         this.numAcct = 0;
     }
 
+    /**
+     *
+     * @return
+     */
     public Account [] getAccounts() {
         return this.accounts;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getNumAcct() {
         return this.numAcct;
     }
 
+    /**
+     *
+     * @param account
+     * @return
+     */
     private int find(Account account) {
         for (int i = 0; i < numAcct; i++) {
             if (accounts[i].equals(account)) {
@@ -34,6 +57,9 @@ public class AccountDatabase {
         return NOT_FOUND;
     }
 
+    /**
+     *
+     */
     private void grow() {
         Account[] increasedSize = new Account[accounts.length + INCREASE_ARRAY_CAPACITY];
         for (int i = 0; i < numAcct; i++) {
@@ -42,6 +68,11 @@ public class AccountDatabase {
         accounts = increasedSize;
     }
 
+    /**
+     *
+     * @param account
+     * @return
+     */
     public boolean open(Account account) {
         if (find(account) != NOT_FOUND && accounts[find(account)].closed == true) {
             Account isInDatabase = accounts[find(account)];
@@ -67,6 +98,11 @@ public class AccountDatabase {
         return true;
     }
 
+    /**
+     *
+     * @param account
+     * @return
+     */
     public boolean close(Account account) {
         int removedAcctIndex = find(account);
         Account closeAccount = accounts[removedAcctIndex];
@@ -83,30 +119,45 @@ public class AccountDatabase {
         return true;
     }
 
+    /**
+     *
+     * @param account
+     */
     public void deposit(Account account) {
         Account findMatchingAccount = accounts[find(account)];
         findMatchingAccount.deposit(account.balance);
     }
 
+    /**
+     *
+     * @param account
+     * @return
+     */
     public boolean withdraw(Account account) {
         Account findMatchingAccount = accounts[find(account)];
         findMatchingAccount.withdraw(account.balance);
         if (findMatchingAccount instanceof MoneyMarket) {
             MoneyMarket updateWithdrawls = (MoneyMarket) findMatchingAccount;
             updateWithdrawls.numberOfWithdrawl = updateWithdrawls.numberOfWithdrawl + 1;
-            if (updateWithdrawls.balance < MINIMUM_AMOUNT_FOR_MONEYMARKET_LOYAL_CUSTOMER) {
+            if (updateWithdrawls.balance < MINIMUM_AMOUNT_FOR_MONEY_MARKET_LOYAL_CUSTOMER) {
                 updateWithdrawls.loyalCustomer = false;
             }
         }
         return true;
     } //return false if insufficient fund
 
+    /**
+     *
+     */
     public void print() {
         for (int i = 0; i < numAcct; i++) {
             System.out.println(accounts[i].toString());
         }
     }
 
+    /**
+     *
+     */
     public void printByAccountType() {
         for (int i = 0; i < numAcct - 1; i++) {
             int minimumIndex = i;
@@ -122,6 +173,9 @@ public class AccountDatabase {
         print();
     }
 
+    /**
+     *
+     */
     public void printFeeAndInterest() {
         DecimalFormat PaddingZeroes = new DecimalFormat("#,##0.00");
         for (int i = 0; i < numAcct; i++) {
