@@ -1,7 +1,7 @@
 package processor;
 
-
 import java.text.DecimalFormat;
+
 
 /**
  This class creates an Account object based off of a Profile object and a double denoting the balance of an account.
@@ -19,6 +19,7 @@ public class AccountDatabase {
     public static final int INCREASE_ARRAY_CAPACITY = 4;
     public static final int MINIMUM_AMOUNT_FOR_MONEY_MARKET_LOYAL_CUSTOMER = 2500;
 
+
     /**
      *Creates an account database with an initial capacity of 4 and no accounts stored.
      */
@@ -26,6 +27,7 @@ public class AccountDatabase {
         this.accounts = new Account[INCREASE_ARRAY_CAPACITY];
         this.numAcct = 0;
     }
+
 
     /**
      Returns array with all accounts in the database.
@@ -35,6 +37,7 @@ public class AccountDatabase {
         return this.accounts;
     }
 
+
     /**
      Returns number of accounts in the database.
      @return number of accounts in the database.
@@ -42,6 +45,7 @@ public class AccountDatabase {
     public int getNumAcct() {
         return this.numAcct;
     }
+
 
     /**
      Finds a specified account object within the database and returns its index within the array.
@@ -57,6 +61,7 @@ public class AccountDatabase {
         return NOT_FOUND;
     }
 
+
     /**
      Increases the size of the accounts array by 4.
      */
@@ -67,6 +72,7 @@ public class AccountDatabase {
         }
         accounts = increasedSize;
     }
+
 
     /**
      Opens a new account within the account database and also capable of reopening a previously closed account.
@@ -98,6 +104,7 @@ public class AccountDatabase {
         return true;
     }
 
+
     /**
      Closes an account within th account database and resets balance and special conditions.
      @param account the account that is being closed.
@@ -119,6 +126,7 @@ public class AccountDatabase {
         return true;
     }
 
+
     /**
      Deposits a specified balance into a specified account.
      @param account account that is being deposited into with the balance that is to be deposited.
@@ -127,6 +135,7 @@ public class AccountDatabase {
         Account findMatchingAccount = accounts[find(account)];
         findMatchingAccount.deposit(account.balance);
     }
+
 
     /**
      Withdraws a specificed balance from a specified account.
@@ -149,6 +158,7 @@ public class AccountDatabase {
         return true;
     } //return false if insufficient fund
 
+
     /**
      Print out accounts within the database in the order that they are currently in.
      */
@@ -157,6 +167,7 @@ public class AccountDatabase {
             System.out.println(accounts[i].toString());
         }
     }
+
 
     /**
      Print out the accounts in the database ordered by account type.
@@ -175,6 +186,7 @@ public class AccountDatabase {
         }
         print();
     }
+
 
     /**
      Print out the accounts within the database and the respective fees and monthly interest accrued for each account.

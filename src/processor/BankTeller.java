@@ -2,6 +2,7 @@ package processor;
 import java.util.Scanner;
 import java.lang.NumberFormatException;
 
+
 /**
  This class contains and modifies an AccountDatabase object based on the commands and information obtained from standard
  input. These commands may request to open an account, which may be done after checking that the inputted information is
@@ -18,6 +19,11 @@ public class BankTeller {
     public static final int VALID_NUMBER_OF_INFORMATION_FOR_OPENING_COLLEGE_CHECKING_OR_SAVINGS = 7;
     public static final int VALID_NUMBER_OF_INFORMATION_FOR_CLOSING_ACCOUNT = 5;
     public static final int NOT_FOUND = -1;
+    public static final int MONEY_MARKET_WAIVED_THRESHOLD = 2500;
+    public static final int NEW_BRUNSWICK_CAMPUS_CODE = 0;
+    public static final int NEWARK_CAMPUS_CODE = 1;
+    public static final int CAMDEN_CAMPUS_CODE = 2;
+
 
     /**
      Constructor for a BankTeller object that instantiates an AccountDatabase object. This AccountDatabase object will
@@ -26,6 +32,7 @@ public class BankTeller {
     public BankTeller() {
         this.allAccts = new AccountDatabase();
     }
+
 
     /**
      Finds the account object that is passed into the method in the AccountDatabase object array and returns its index
@@ -41,6 +48,7 @@ public class BankTeller {
         }
         return NOT_FOUND;
     }
+
 
     /**
      Checks if an open account of the same type and Profile as the one passed into the method exists in the database.
@@ -67,6 +75,7 @@ public class BankTeller {
         }
         return false;
     }
+
 
     /**
      Checks if the information needed to open an account is valid by checking if there is enough data, if the date of
@@ -108,6 +117,7 @@ public class BankTeller {
         return true;
     }
 
+
     /**
      Checks if the balance that is being deposited or withdrew is a valid amount, as well as if the balance is positive.
      @param splitInformation a string array containing the information obtained from standard input that is needed to
@@ -131,6 +141,7 @@ public class BankTeller {
         }
         return true;
     }
+
 
     /**
      Checks if the number of accounts in the database is 0 or not, and if not, then it prints these accounts in one of
@@ -167,6 +178,7 @@ public class BankTeller {
         }
     }
 
+
     /**
      Opens or reopens an account of a specific type as long as the information obtained is valid.
      @param splitInformation a string array containing the information obtained from standard input that is needed to
@@ -182,22 +194,22 @@ public class BankTeller {
             addAccount = new Checking(holder, Double.parseDouble(splitInformation[5]));
         } else if (splitInformation[1].equals("CC")) {
             int campusCode = Integer.parseInt(splitInformation[6]);
-            if (!(campusCode == 0 || campusCode == 1 || campusCode == 2)) {
+            if (!(campusCode == NEW_BRUNSWICK_CAMPUS_CODE || campusCode == NEWARK_CAMPUS_CODE
+                    || campusCode == CAMDEN_CAMPUS_CODE)) {
                 System.out.println("Invalid campus code.");
                 return;
             }
             addAccount = new CollegeChecking(holder, Double.parseDouble(splitInformation[5]), campusCode);
         } else if (splitInformation[1].equals("S")) {
-            int loyalCustomerCode = Integer.parseInt(splitInformation[6]);
-            addAccount = new Savings(holder, Double.parseDouble(splitInformation[5]), loyalCustomerCode);
+            addAccount = new Savings(holder, Double.parseDouble(splitInformation[5]), Integer.parseInt(splitInformation[6]));
         } else if (splitInformation[1].equals("MM")) {
             addAccount = new MoneyMarket(holder, Double.parseDouble(splitInformation[5]));
             MoneyMarket testAccount = (MoneyMarket) addAccount;
-            if (testAccount.balance < 2500 && accountFinder(testAccount) == NOT_FOUND) {
+            if (testAccount.balance < MONEY_MARKET_WAIVED_THRESHOLD && accountFinder(testAccount) == NOT_FOUND) {
                 System.out.println("Minimum of $2500 to open a MoneyMarket account.");
                 return;
             }
-            if (testAccount.balance < 2500) {
+            if (testAccount.balance < MONEY_MARKET_WAIVED_THRESHOLD) {
                 testAccount.loyalCustomer = false;
             }
         }
@@ -210,6 +222,7 @@ public class BankTeller {
             System.out.println("Account opened.");
         }
     }
+
 
     /**
      Closes an account of a specific type as long as the information obtained is valid.
@@ -244,6 +257,7 @@ public class BankTeller {
         System.out.println("Account closed.");
     }
 
+
     /**
      Deposits money into an account of a specific type in the database as long as the information obtained is valid.
      @param splitInformation a string array containing the information obtained from standard input that is needed to
@@ -275,6 +289,7 @@ public class BankTeller {
         allAccts.deposit(increaseBalance);
         System.out.println("Deposit - balance updated.");
     }
+
 
     /**
      Withdraws money from an account of a specific type in the database as long as the information obtained is valid.
@@ -310,6 +325,7 @@ public class BankTeller {
         }
         System.out.println("Withdraw - balance updated.");
     }
+
 
     /**
      Reads in commands and information from standard input, and modifies the AccountDatabase object based on these

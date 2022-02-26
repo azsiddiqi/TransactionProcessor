@@ -1,5 +1,6 @@
 package processor;
 
+
 /**
  This class is a subclass of the Checking class, thus extending all of its methods and applies conditions specific to a
  CollegeChecking account. It has a constructor based off of a Profile object, account balance, and a campus code. Along
@@ -18,6 +19,7 @@ public class CollegeChecking extends Checking {
     public static final int CAMDEN_CAMPUS_CODE = 2;
     public static final int COLLEGE_CHECKING_FEE = 0;
 
+
     /**
      Creates a CollegeChecking object based on a Profile object, a double denoting account balance, and an integer
      denoting the college campus of the account holder.
@@ -27,14 +29,15 @@ public class CollegeChecking extends Checking {
      */
     public CollegeChecking(Profile holder, double balance, int campusCode) {
         super(holder, balance);
-        if (campusCode == NEW_BRUNSWICK_CAMPUS_CODE){
+        if (campusCode == NEW_BRUNSWICK_CAMPUS_CODE) {
             this.campusName = "NEW_BRUNSWICK";
         } else if (campusCode == NEWARK_CAMPUS_CODE) {
             this.campusName = "NEWARK";
-        } else if (campusCode == CAMDEN_CAMPUS_CODE){
+        } else if (campusCode == CAMDEN_CAMPUS_CODE) {
             this.campusName = "CAMDEN";
         }
     }
+
 
     /**
      Calculates the amount of money accrued via interest per month based on account balance and the college checking
@@ -45,6 +48,7 @@ public class CollegeChecking extends Checking {
         return  COLLEGE_CHECKING_MONTHLY_INTEREST_RATE * this.balance;
     } //return the monthly interest
 
+
     /**
      Calculates the fee needed to be paid in order to maintain a college checking account by using the college checking
      account balance.
@@ -54,13 +58,15 @@ public class CollegeChecking extends Checking {
         return COLLEGE_CHECKING_FEE;
     } //return the monthly fee
 
+
     /**
      Returns the type of the CollegeChecking account as a string.
      @return a string denoting the type of the account, which is College Checking.
      */
-    public String getType(){
+    public String getType() {
         return "College Checking";
     } //return the account type (class name)
+
 
     /**
      Converts information regarding a college checking account into a string.

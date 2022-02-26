@@ -1,5 +1,6 @@
 package processor;
 
+
 /**
  This class is a subclass of the Account class, thus extending all of its methods and applies conditions specific to a
  Savings account. It has a constructor based off of a Profile object, Account balance, and a loyalCustomerCode which
@@ -19,6 +20,7 @@ public class Savings extends Account {
     public static final int SAVINGS_FEE_IF_BALANCE_UNDER_THREE_HUNDRED = 6;
     public static final int NOT_LOYAL = 0;
 
+
     /**
      Creates a Savings object based on a Profile object, a double denoting account balance, and an integer denoting
      whether the holder is a loyal customer or not.
@@ -35,6 +37,7 @@ public class Savings extends Account {
         }
     }
 
+
     /**
      Calculates the amount of money accrued via interest per month based on account balance and savings account monthly
      interest rates.
@@ -47,6 +50,7 @@ public class Savings extends Account {
         return REGULAR_SAVINGS_MONTHLY_INTEREST_RATE * this.balance;
     } //return the monthly interest
 
+
     /**
      Calculates the fee needed to be paid in order to maintain a savings account by using the savings account balance.
      @return the fee in USD to keep the savings account open.
@@ -58,6 +62,7 @@ public class Savings extends Account {
         return SAVINGS_FEE_IF_BALANCE_UNDER_THREE_HUNDRED;
     } //return the monthly fee
 
+
     /**
      Returns the type of the savings account as a string.
      @return a string denoting the type of the account, which is Savings.
@@ -65,6 +70,7 @@ public class Savings extends Account {
     public String getType() {
         return "Savings";
     } //return the account type (class name)
+
 
     /**
      Converts information regarding a savings account into a string.
