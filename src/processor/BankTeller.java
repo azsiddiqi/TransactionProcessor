@@ -46,7 +46,7 @@ public class BankTeller {
         return false;
     }
 
-    private void openAccount(String[] splitInformation) {
+    private void checkIfValidInformation(String[] splitInformation) {
         if (splitInformation[1].equals("C") || splitInformation[1].equals("MM")) {
             if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_OPENING_CHECKING_OR_MONEYMARKET) {
                 System.out.println("Missing data for opening an account.");
@@ -76,74 +76,46 @@ public class BankTeller {
             System.out.println("Initial deposit cannot be 0 or negative.");
             return;
         }
+    }
+
+    private void openAccount(String[] splitInformation) {
+        Account addAccount;
         if (splitInformation[1].equals("C")) {
-            Checking addAccount = new Checking(holder, balance);
-            boolean checkIfValid = checkIfSameAccounts(addAccount);
-            if (checkIfValid == true) {
-                System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
-                return;
-            }
-            checkIfValid = allAccts.open(addAccount);
-            if (checkIfValid == false) {
-                System.out.println("Account reopened.");
-            } else {
-                System.out.println("Account opened.");
-            }
+            Checking addAccount = new Checking(new Profile(splitInformation[2], splitInformation[3],
+                    new Date(splitInformation[4])), Double.parseDouble(splitInformation[5]));
         } else if (splitInformation[1].equals("CC")) {
             int campusCode = Integer.parseInt(splitInformation[6]);
             if (!(campusCode == 0 || campusCode == 1 || campusCode == 2)) {
                 System.out.println("Invalid campus code.");
                 return;
             }
-            CollegeChecking addAccount = new CollegeChecking(holder, balance, campusCode);
-            boolean checkIfValid = checkIfSameAccounts(addAccount);
-            if (checkIfValid == true) {
-                System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
-                return;
-            }
-            checkIfValid = allAccts.open(addAccount);
-            if (checkIfValid == false) {
-                System.out.println("Account reopened.");
-            } else {
-                System.out.println("Account opened.");
-            }
+            CollegeChecking addAccount = new CollegeChecking((new Profile(splitInformation[2], splitInformation[3],
+                    new Date(splitInformation[4]))), Double.parseDouble(splitInformation[5]), campusCode);
         } else if (splitInformation[1].equals("S")) {
             int loyalCustomerCode = Integer.parseInt(splitInformation[6]);
-            Savings addAccount = new Savings(holder, balance, loyalCustomerCode);
-            boolean checkIfValid = checkIfSameAccounts(addAccount);
-            if (checkIfValid == true) {
-                System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
-                return;
-            }
-            checkIfValid = allAccts.open(addAccount);
-            if (checkIfValid == false) {
-                System.out.println("Account reopened.");
-            } else {
-                System.out.println("Account opened.");
-            }
+            Savings addAccount = new Savings((new Profile(splitInformation[2], splitInformation[3],
+                    new Date(splitInformation[4]))), Double.parseDouble(splitInformation[5]), loyalCustomerCode);
         } else if (splitInformation[1].equals("MM")) {
-            MoneyMarket addAccount = new MoneyMarket(holder, balance);
-            if (balance < 2500 && findAccount(addAccount) == NOT_FOUND) {
+            MoneyMarket addAccount = new MoneyMarket((new Profile(splitInformation[2], splitInformation[3],
+                    new Date(splitInformation[4])), Double.parseDouble(splitInformation[5]));
+            if (addAccount.balance < 2500 && findAccount(addAccount) == NOT_FOUND) {
                 System.out.println("Minimum of $2500 to open a MoneyMarket account.");
                 return;
             }
-            if (balance < 2500) {
+            if (addAccount.balance < 2500) {
                 addAccount.loyalCustomer = false;
             }
-            boolean checkIfValid = checkIfSameAccounts(addAccount);
-            if (checkIfValid == true) {
-                System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
-                return;
-            }
-            checkIfValid = allAccts.open(addAccount);
-            if (checkIfValid == false) {
-                System.out.println("Account reopened.");
-            } else {
-                System.out.println("Account opened.");
-            }
-        } else {
-            System.out.println("Invalid command!");
+        }
+        boolean checkIfValid = checkIfSameAccounts(addAccount);
+        if (checkIfValid == true) {
+            System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
             return;
+        }
+        checkIfValid = allAccts.open(addAccount);
+        if (checkIfValid == false) {
+            System.out.println("Account reopened.");
+        } else {
+            System.out.println("Account opened.");
         }
     }
 

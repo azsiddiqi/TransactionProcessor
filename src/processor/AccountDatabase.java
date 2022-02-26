@@ -10,6 +10,7 @@ public class AccountDatabase {
 
     public static final int NOT_FOUND = -1;
     public static final int INCREASE_ARRAY_CAPACITY = 4;
+    public static final int MINIMUM_AMOUNT_FOR_MONEYMARKET_LOYAL_CUSTOMER = 2500;
 
     public AccountDatabase(){
         this.accounts = new Account[INCREASE_ARRAY_CAPACITY];
@@ -94,7 +95,7 @@ public class AccountDatabase {
         if (findMatchingAccount instanceof MoneyMarket) {
             MoneyMarket updateWithdrawls = (MoneyMarket) findMatchingAccount;
             updateWithdrawls.numberOfWithdrawl = updateWithdrawls.numberOfWithdrawl + 1;
-            if (updateWithdrawls.balance < 2500) {
+            if (updateWithdrawls.balance < MINIMUM_AMOUNT_FOR_MONEYMARKET_LOYAL_CUSTOMER) {
                 updateWithdrawls.loyalCustomer = false;
             }
         }
