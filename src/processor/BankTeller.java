@@ -351,8 +351,4 @@ public class BankTeller {
         }
         readStandardInput.close();
     }
-
-    public static void main(String[] args) {
-
-    }
 }

@@ -133,22 +133,4 @@ public class AccountDatabase {
         }
         System.out.println("*end of list.\n");
     }
-    public static void main(String[] args){
-
-        Checking acc1 = new Checking(new Profile("K","S", new Date("01/02/2002")), 50);
-        CollegeChecking acc2 = new CollegeChecking(new Profile("K","S", new Date("01/02/2002")), 100, 1);
-        Savings acc3 = new Savings(new Profile("K","S", new Date("01/02/2002")), 200, 1);
-        MoneyMarket acc4 = new MoneyMarket(new Profile("K","S", new Date("01/02/2002")), 210);
-
-
-        AccountDatabase acd1 = new AccountDatabase();
-        acd1.open(acc2);
-        acd1.open(acc3);
-        acd1.open(acc1);
-        acd1.open(acc4);
-
-
-
-        acd1.printByAccountType();
-    }
 }
