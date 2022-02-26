@@ -78,7 +78,21 @@ public abstract class Account {
         this.balance = this.balance - fee() + monthlyInterest();
     }
 
+    /**
+     Calculates monthly interest based account type and balance.
+     @return double that represents the amount of monthly interest accrued.
+     */
     public abstract double monthlyInterest(); //return the monthly interest
+
+    /**
+     Calculates monthly fee based on account type and balance.
+     @return double that represents the monthly fee charged for a specific account.
+     */
     public abstract double fee(); //return the monthly fee
+
+    /**
+     Determines the type of the account object(whether it is Checking, College Checking, Savings, Money Market).
+     @return string that specifies the type of account an object is.
+     */
     public abstract String getType(); //return the account type (class name)
 }
