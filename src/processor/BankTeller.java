@@ -30,9 +30,11 @@ public class BankTeller {
                 System.out.println(account.holder.toString() + " same account(type) is in the database.");
                 return true;
             }
-            if (allAccts.getAccounts()[i].holder.equals(account.holder) && ((allAccts.getAccounts()[i].getType().equals("Checking") &&
-                    account.getType().equals("College Checking")) || (allAccts.getAccounts()[i].getType().equals("College Checking")
-                    && account.getType().equals("Checking")))) {
+            if (allAccts.getAccounts()[i].holder.equals(account.holder) &&
+                    ((allAccts.getAccounts()[i].getType().equals("Checking") &&
+                    account.getType().equals("College Checking")) ||
+                            (allAccts.getAccounts()[i].getType().equals("College Checking")
+                                    && account.getType().equals("Checking")))) {
                 System.out.println(account.holder.toString() + " same account(type) is in the database.");
                 return true;
             }
@@ -58,7 +60,6 @@ public class BankTeller {
             System.out.println("Date of birth invalid.");
             return false;
         }
-        Profile holder = new Profile(splitInformation[2], splitInformation[3], dob);
         double balance = 0;
         try {
             balance = Double.parseDouble(splitInformation[5]);
@@ -119,8 +120,7 @@ public class BankTeller {
     }
 
     private void openAccount(String[] splitInformation) {
-        boolean checkIfValid = validInformationChecker(splitInformation);
-        if (checkIfValid == false) {
+        if (!validInformationChecker(splitInformation)) {
             return;
         }
         Profile holder = new Profile(splitInformation[2], splitInformation[3], new Date(splitInformation[4]));
@@ -148,12 +148,10 @@ public class BankTeller {
                 testAccount.loyalCustomer = false;
             }
         }
-        checkIfValid = sameAccountsChecker(addAccount);
-        if (checkIfValid == true) {
+        if (sameAccountsChecker(addAccount)) {
             return;
         }
-        checkIfValid = allAccts.open(addAccount);
-        if (checkIfValid == false) {
+        if (!(allAccts.open(addAccount))) {
             System.out.println("Account reopened.");
         } else {
             System.out.println("Account opened.");
@@ -185,8 +183,7 @@ public class BankTeller {
     }
 
     private void depositIntoAccount(String[] splitInformation) {
-        boolean checkIfValid = depositAndWithdrawBalanceChecker(splitInformation);
-        if (checkIfValid == false) {
+        if (!(depositAndWithdrawBalanceChecker(splitInformation))) {
             return;
         }
         Profile holder = new Profile(splitInformation[2], splitInformation[3], new Date(splitInformation[4]));
@@ -213,8 +210,7 @@ public class BankTeller {
     }
 
     private void withdrawFromAccount(String[] splitInformation) {
-        boolean checkIfValid = depositAndWithdrawBalanceChecker(splitInformation);
-        if (checkIfValid == false) {
+        if (!(depositAndWithdrawBalanceChecker(splitInformation))) {
             return;
         }
         Profile holder = new Profile(splitInformation[2], splitInformation[3], new Date(splitInformation[4]));

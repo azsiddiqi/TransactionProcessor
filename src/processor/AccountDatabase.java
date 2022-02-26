@@ -78,7 +78,6 @@ public class AccountDatabase {
         }
         if (account instanceof MoneyMarket) {
             MoneyMarket closedAccount = (MoneyMarket) closeAccount;
-            closedAccount.loyalCustomer = false;
             closedAccount.numberOfWithdrawl = 0;
         }
         return true;
