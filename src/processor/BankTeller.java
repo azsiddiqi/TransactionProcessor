@@ -18,7 +18,9 @@ public class BankTeller {
         for (int i = 0; i < allAccts.getNumAcct(); i++) {
             allAccts.getAccounts()[i].updateBalance();
         }
+        System.out.println("\n*list of accounts with updated balance");
         allAccts.print();
+        System.out.println("*end of list.\n");
     }
 
     private int findAccount(Account account) {
@@ -325,25 +327,19 @@ public class BankTeller {
                     System.out.println("Account Database is empty!");
                     continue;
                 }
-                System.out.println("\n*list of accounts by account type.");
                 allAccts.printByAccountType();
-                System.out.println("*end of list.\n");
             } else if (splitInformation[0].equals("PI")) {
                 if (allAccts.getNumAcct() == 0){
                     System.out.println("Account Database is empty!");
                     continue;
                 }
-                System.out.println("\n*list of accounts with fee and monthly interest");
                 allAccts.printFeeAndInterest();
-                System.out.println("*end of list.\n");
             } else if (splitInformation[0].equals("UB")) {
                 if (allAccts.getNumAcct() == 0){
                     System.out.println("Account Database is empty!");
                     continue;
                 }
-                System.out.println("\n*list of accounts with updated balance");
                 updateAndDisplayBalances();
-                System.out.println("*end of list.\n");
             } else if (splitInformation[0].equals("Q")) {
                 System.out.println("Bank Teller is terminated.");
                 break;

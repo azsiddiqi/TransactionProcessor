@@ -27,10 +27,10 @@ public class Profile {
     }
 
     /**
-     Compares the first name, last name, and date of birth of two profiles in order to determine whether they are the
-     same or not.
+     Compares the first name, last name, and date of birth of two profile objects in order to determine whether they are
+     the same or not.
      @param obj Profile object being compared to the original Profile object.
-     @return
+     @return true if both profile objects are equal, false if they are not.
      */
     public boolean equals(Object obj){
         if (obj instanceof Profile){

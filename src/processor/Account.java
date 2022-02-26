@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
  This class creates an Account object based off of a Profile object and a double denoting the balance of an account.
  It also has an equals method to check to see if two accounts are the same and a toString method which returns the type
  of the account, the account holder, and the balance of the account. Along with this there are three abstract methods which
- extend to the Account classes subclasses that return the monthly interest, the monthly fee, and the type of the account.
+ extend to the Account class's subclasses that return the monthly interest, the monthly fee, and the type of the account.
  @author Azaan Siddiqi, Karan Patel
  */
 public abstract class Account {
@@ -15,8 +15,8 @@ public abstract class Account {
     protected double balance;
 
     /**
-     Creates a date object based on a profile and an account balance double.
-     @param holder Profile of the account holder.
+     Creates an Account object based on a Profile object and a double denoting the balance.
+     @param holder Profile of the account holder containing the first name, last name, and date of birth.
      @param balance Balance of the account in USD.
      */
     public Account(Profile holder, double balance){
@@ -26,9 +26,9 @@ public abstract class Account {
     }
 
     /**
-     Compares the holder and type of two account objects in order to determine if that are the same account.
+     Compares the Profile objects and types of two account objects in order to determine if they are the same account.
      @param obj the specified account object to be compared to the original account object.
-     @return true if the holder object and the type of both account objects are equal and false if they aren't equal.
+     @return true if the Profile objects and the types of both account objects are equal and false if they aren't equal.
      */
     @Override
     public boolean equals(Object obj) {
@@ -42,8 +42,10 @@ public abstract class Account {
     }
 
     /**
-     Converts account information into a string.
-     @return A string containing the account type, holder, balance, and whether the account is closed or not.
+     Converts account information, such as account type, the information of the holder, balance, and whether the account
+     is closed or not, into a string.
+     @return A string containing the account type, the information of the holder, balance, and whether the account is
+     closed or not, in that order.
      */
     @Override
     public String toString() {
@@ -79,7 +81,7 @@ public abstract class Account {
     }
 
     /**
-     Calculates monthly interest based account type and balance.
+     Calculates monthly interest based on account type and balance.
      @return double that represents the amount of monthly interest accrued.
      */
     public abstract double monthlyInterest(); //return the monthly interest

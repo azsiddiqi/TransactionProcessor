@@ -102,7 +102,6 @@ public class AccountDatabase {
     } //return false if insufficient fund
 
     public void print() {
-        Account storeAccount;
         for (int i = 0; i < numAcct; i++) {
             System.out.println(accounts[i].toString());
         }
@@ -120,15 +119,19 @@ public class AccountDatabase {
             accounts[minimumIndex] = accounts[i];
             accounts[i] = swapPositions;
         }
+        System.out.println("\n*list of accounts by account type.");
         print();
+        System.out.println("*end of list.\n");
     }
 
     public void printFeeAndInterest() {
         DecimalFormat PaddingZeroes = new DecimalFormat("#,##0.00");
+        System.out.println("\n*list of accounts with fee and monthly interest");
         for (int i = 0; i < numAcct; i++){
             System.out.println(accounts[i].toString() + "::fee $" + PaddingZeroes.format(accounts[i].fee())
                     + "::monthly interest $" + PaddingZeroes.format(accounts[i].monthlyInterest()));
         }
+        System.out.println("*end of list.\n");
     }
     public static void main(String[] args){
 
