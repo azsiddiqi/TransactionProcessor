@@ -18,7 +18,7 @@ public class MoneyMarket extends Savings {
         if (loyalCustomer == true) {
             return (0.0095/12) * this.balance;
         }
-        return (0.008/12);
+        return (0.008/12) * this.balance;
     } //return the monthly interest
 
     public double fee() {

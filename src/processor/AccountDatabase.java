@@ -68,47 +68,35 @@ public class AccountDatabase {
 
     public boolean close(Account account) {
         int removedAcctIndex = find(account);
-        if (removedAcctIndex == NOT_FOUND) {
-            return false;
-        }
-        account.closed = true;
-        account.balance = 0;
+        Account closeAccount = accounts[removedAcctIndex];
+        closeAccount.closed = true;
+        closeAccount.balance = 0;
         if (account instanceof Savings) {
-            Savings closedAccount = (Savings) account;
+            Savings closedAccount = (Savings) closeAccount;
             closedAccount.loyalCustomer = false;
         }
         if (account instanceof MoneyMarket) {
-            MoneyMarket closedAccount = (MoneyMarket) account;
+            MoneyMarket closedAccount = (MoneyMarket) closeAccount;
+            closedAccount.loyalCustomer = false;
             closedAccount.numberOfWithdrawl = 0;
         }
         return true;
     }
 
     public void deposit(Account account) {
-        int findMatchingAccountIndex = find(account);
-        if (findMatchingAccountIndex == -1) {
-            System.out.println(account.holder + " " + account.getType() + " is not in the database.");
-            return;
-        }
-        Account findMatchingAccount = accounts[findMatchingAccountIndex];
+        Account findMatchingAccount = accounts[find(account)];
         findMatchingAccount.deposit(account.balance);
     }
 
     public boolean withdraw(Account account) {
-        int findMatchingAccountIndex = find(account);
-        if (findMatchingAccountIndex == -1) {
-            System.out.println(account.holder + " " + account.getType() + " is not in the database.");
-            return false;
-        }
-        Account findMatchingAccount = accounts[findMatchingAccountIndex];
-        if (account.balance > findMatchingAccount.balance) {
-            System.out.println("Withdraw - insufficient fund");
-            return false;
-        }
+        Account findMatchingAccount = accounts[find(account)];
         findMatchingAccount.withdraw(account.balance);
         if (findMatchingAccount instanceof MoneyMarket) {
             MoneyMarket updateWithdrawls = (MoneyMarket) findMatchingAccount;
             updateWithdrawls.numberOfWithdrawl = updateWithdrawls.numberOfWithdrawl + 1;
+            if (updateWithdrawls.balance < 2500) {
+                updateWithdrawls.loyalCustomer = false;
+            }
         }
         return true;
     } //return false if insufficient fund
@@ -137,7 +125,7 @@ public class AccountDatabase {
         DecimalFormat PaddingZeroes = new DecimalFormat("#,##0.00");
         for (int i = 0; i < numAcct; i++){
             System.out.println(accounts[i].toString() + "::fee $" + PaddingZeroes.format(accounts[i].fee())
-                    + "::monthly $" + PaddingZeroes.format(accounts[i].monthlyInterest()));
+                    + "::monthly interest $" + PaddingZeroes.format(accounts[i].monthlyInterest()));
         }
     }
     public static void main(String[] args){

@@ -5,8 +5,9 @@ public class BankTeller {
 
     private AccountDatabase allAccts;
 
-    public static final int VALID_NUMBER_OF_INFORMATION_FOR_CHECKING_OR_MONEYMARKET = 6;
-    public static final int VALID_NUMBER_OF_INFORMATION_FOR_COLLEGECHECKING_OR_SAVINGS = 7;
+    public static final int VALID_NUMBER_OF_INFORMATION_FOR_OPENING_CHECKING_OR_MONEYMARKET = 6;
+    public static final int VALID_NUMBER_OF_INFORMATION_FOR_OPENING_COLLEGECHECKING_OR_SAVINGS = 7;
+    public static final int VALID_NUMBER_OF_INFORMATION_FOR_CLOSING_ACCOUNT = 5;
     public static final int NOT_FOUND = -1;
 
     public BankTeller() {
@@ -29,28 +30,28 @@ public class BankTeller {
         return NOT_FOUND;
     }
 
-    private int checkIfSameAccounts(Account account) {
+    private boolean checkIfSameAccounts(Account account) {
         for (int i = 0; i < allAccts.getNumAcct(); i++){
             if (findAccount(account) != NOT_FOUND && allAccts.getAccounts()[findAccount(account)].closed == false) {
-                return i;
+                return true;
             }
             if (allAccts.getAccounts()[i].holder.equals(account.holder) && ((allAccts.getAccounts()[i].getType().equals("Checking") &&
                     account.getType().equals("College Checking")) || (allAccts.getAccounts()[i].getType().equals("College Checking")
                     && account.getType().equals("Checking")))) {
-                return i;
+                return true;
             }
         }
-        return NOT_FOUND;
+        return false;
     }
 
     private void openAccount(String[] splitInformation) {
         if (splitInformation[1].equals("C") || splitInformation[1].equals("MM")) {
-            if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_CHECKING_OR_MONEYMARKET) {
+            if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_OPENING_CHECKING_OR_MONEYMARKET) {
                 System.out.println("Missing data for opening an account.");
                 return;
             }
         } else if (splitInformation[1].equals("CC") || splitInformation[1].equals("S")) {
-            if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_COLLEGECHECKING_OR_SAVINGS) {
+            if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_OPENING_COLLEGECHECKING_OR_SAVINGS) {
                 System.out.println("Missing data for opening an account.");
                 return;
             }
@@ -75,13 +76,15 @@ public class BankTeller {
         }
         if (splitInformation[1].equals("C")) {
             Checking addAccount = new Checking(holder, balance);
-            int checkIfValid = checkIfSameAccounts(addAccount);
-            if (checkIfValid != -1) {
+            boolean checkIfValid = checkIfSameAccounts(addAccount);
+            if (checkIfValid == true) {
                 System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
                 return;
             }
-            boolean test = allAccts.open(addAccount);
-            if (test == true) {
+            checkIfValid = allAccts.open(addAccount);
+            if (checkIfValid == false) {
+                System.out.println("Account reopened.");
+            } else {
                 System.out.println("Account opened.");
             }
         } else if (splitInformation[1].equals("CC")) {
@@ -91,115 +94,212 @@ public class BankTeller {
                 return;
             }
             CollegeChecking addAccount = new CollegeChecking(holder, balance, campusCode);
-            int checkIfValid = checkIfSameAccounts(addAccount);
-            if (checkIfValid != -1) {
+            boolean checkIfValid = checkIfSameAccounts(addAccount);
+            if (checkIfValid == true) {
                 System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
                 return;
             }
-            boolean test = allAccts.open(addAccount);
-            if (test == true) {
+            checkIfValid = allAccts.open(addAccount);
+            if (checkIfValid == false) {
+                System.out.println("Account reopened.");
+            } else {
                 System.out.println("Account opened.");
             }
         } else if (splitInformation[1].equals("S")) {
             int loyalCustomerCode = Integer.parseInt(splitInformation[6]);
             Savings addAccount = new Savings(holder, balance, loyalCustomerCode);
-            int checkIfValid = checkIfSameAccounts(addAccount);
-            if (checkIfValid != -1) {
+            boolean checkIfValid = checkIfSameAccounts(addAccount);
+            if (checkIfValid == true) {
                 System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
                 return;
             }
-            boolean test = allAccts.open(addAccount);
-            if (test == true) {
+            checkIfValid = allAccts.open(addAccount);
+            if (checkIfValid == false) {
+                System.out.println("Account reopened.");
+            } else {
                 System.out.println("Account opened.");
             }
         } else if (splitInformation[1].equals("MM")) {
-            if (balance < 2500) {
+            MoneyMarket addAccount = new MoneyMarket(holder, balance);
+            if (balance < 2500 && findAccount(addAccount) == NOT_FOUND) {
                 System.out.println("Minimum of $2500 to open a MoneyMarket account.");
                 return;
             }
-            MoneyMarket addAccount = new MoneyMarket(holder, balance);
-            int checkIfValid = checkIfSameAccounts(addAccount);
-            if (checkIfValid != -1) {
+            if (balance < 2500) {
+                addAccount.loyalCustomer = false;
+            }
+            boolean checkIfValid = checkIfSameAccounts(addAccount);
+            if (checkIfValid == true) {
                 System.out.println(addAccount.holder.toString() + " same account(type) is in the database.");
                 return;
             }
-            boolean test = allAccts.open(addAccount);
-            if (test == true) {
+            checkIfValid = allAccts.open(addAccount);
+            if (checkIfValid == false) {
+                System.out.println("Account reopened.");
+            } else {
                 System.out.println("Account opened.");
             }
         } else {
-            System.out.println("Invalid Command!");
+            System.out.println("Invalid command!");
             return;
         }
     }
 
-    private void closeAccount(Scanner readStandardInput) {
-        if (readStandardInput.next().equals("C")) {
-            Checking addAccount = new Checking(new Profile(readStandardInput.next(), readStandardInput.next(), new Date(readStandardInput.next())),
-                    0);
-            allAccts.close(addAccount);
-        } else if (readStandardInput.next().equals("CC")) {
-            CollegeChecking addAccount = new CollegeChecking(new Profile(readStandardInput.next(), readStandardInput.next(), new Date(readStandardInput.next())),
-                    0, 0);
-            allAccts.close(addAccount);
-        } else if (readStandardInput.next().equals("S")) {
-            Savings addAccount = new Savings(new Profile(readStandardInput.next(), readStandardInput.next(), new Date(readStandardInput.next())),
-                    0, 0);
-            allAccts.close(addAccount);
-        } else if (readStandardInput.next().equals("MM")) {
-            MoneyMarket addAccount = new MoneyMarket(new Profile(readStandardInput.next(), readStandardInput.next(), new Date(readStandardInput.next())),
-                    0);
-            allAccts.close(addAccount);
+    private void closeAccount(String[] splitInformation) {
+        if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_CLOSING_ACCOUNT) {
+            System.out.println("Missing data for closing an account.");
+            return;
         }
+        if (splitInformation[1].equals("C")) {
+            Checking closeAccount = new Checking(new Profile(splitInformation[2], splitInformation[3], new Date(splitInformation[4])),
+                    0);
+            if (allAccts.getAccounts()[findAccount(closeAccount)].closed == true) {
+                System.out.println("Account is closed already.");
+                return;
+            }
+            allAccts.close(closeAccount);
+        } else if (splitInformation[1].equals("CC")) {
+            CollegeChecking closeAccount = new CollegeChecking(new Profile(splitInformation[2], splitInformation[3], new Date(splitInformation[4])),
+                    0, 0);
+            if (allAccts.getAccounts()[findAccount(closeAccount)].closed == true) {
+                System.out.println("Account is closed already.");
+                return;
+            }
+            allAccts.close(closeAccount);
+        } else if (splitInformation[1].equals("S")) {
+            Savings closeAccount = new Savings(new Profile(splitInformation[2], splitInformation[3], new Date(splitInformation[4])),
+                    0, 0);
+            if (allAccts.getAccounts()[findAccount(closeAccount)].closed == true) {
+                System.out.println("Account is closed already.");
+                return;
+            }
+            allAccts.close(closeAccount);
+        } else if (splitInformation[1].equals("MM")) {
+            MoneyMarket closeAccount = new MoneyMarket(new Profile(splitInformation[2], splitInformation[3], new Date(splitInformation[4])),
+                    0);
+            if (allAccts.getAccounts()[findAccount(closeAccount)].closed == true) {
+                System.out.println("Account is closed already.");
+                return;
+            }
+            allAccts.close(closeAccount);
+        }
+        System.out.println("Account closed.");
     }
-    private void depositIntoAccount(Scanner readStandardInput) {
-        String storeCommand = readStandardInput.next();
-        Profile holder = new Profile(readStandardInput.next(), readStandardInput.next(), new Date(readStandardInput.next()));
-        int balance = readStandardInput.nextInt();
+    private void depositIntoAccount(String[] splitInformation) {
+        double balance = 0;
+        try {
+            balance = Double.parseDouble(splitInformation[5]);
+        } catch (NumberFormatException invalidBalance) {
+            System.out.println("Not a valid amount.");
+            return;
+        }
+        Profile holder = new Profile(splitInformation[2], splitInformation[3], new Date(splitInformation[4]));
         if (balance <= 0) {
             System.out.println("Deposit - amount cannot be 0 or negative.");
             return;
         }
-        if (storeCommand.equals("C")) {
+        if (splitInformation[1].equals("C")) {
             Checking increaseBalance = new Checking(holder, balance);
+            int findMatchingAccountIndex = findAccount(increaseBalance);
+            if (findMatchingAccountIndex == -1) {
+                System.out.println(increaseBalance.holder + " " + increaseBalance.getType() + " is not in the database.");
+                return;
+            }
             allAccts.deposit(increaseBalance);
-        } else if (storeCommand.equals("CC")) {
+        } else if (splitInformation[1].equals("CC")) {
             CollegeChecking increaseBalance = new CollegeChecking(holder, balance, 0);
+            int findMatchingAccountIndex = findAccount(increaseBalance);
+            if (findMatchingAccountIndex == -1) {
+                System.out.println(increaseBalance.holder + " " + increaseBalance.getType() + " is not in the database.");
+                return;
+            }
             allAccts.deposit(increaseBalance);
-        } else if (storeCommand.equals("S")) {
+        } else if (splitInformation[1].equals("S")) {
             Savings increaseBalance = new Savings(holder, balance, 0);
+            int findMatchingAccountIndex = findAccount(increaseBalance);
+            if (findMatchingAccountIndex == -1) {
+                System.out.println(increaseBalance.holder + " " + increaseBalance.getType() + " is not in the database.");
+                return;
+            }
             allAccts.deposit(increaseBalance);
-        } else if (storeCommand.equals("MM")) {
+        } else if (splitInformation[1].equals("MM")) {
             MoneyMarket increaseBalance = new MoneyMarket(holder, balance);
+            int findMatchingAccountIndex = findAccount(increaseBalance);
+            if (findMatchingAccountIndex == -1) {
+                System.out.println(increaseBalance.holder + " Money Market is not in the database.");
+                return;
+            }
             allAccts.deposit(increaseBalance);
         }
         System.out.println("Deposit - balance updated.");
     }
 
-    private void withdrawFromAccount(Scanner readStandardInput) {
-        String storeCommand = readStandardInput.next();
-        Profile holder = new Profile(readStandardInput.next(), readStandardInput.next(), new Date(readStandardInput.next()));
-        int balance = readStandardInput.nextInt();
+    private void withdrawFromAccount(String[] splitInformation) {
+        double balance = 0;
+        try {
+            balance = Double.parseDouble(splitInformation[5]);
+        } catch (NumberFormatException invalidBalance) {
+            System.out.println("Not a valid amount.");
+            return;
+        }
+        Profile holder = new Profile(splitInformation[2], splitInformation[3], new Date(splitInformation[4]));
         if (balance <= 0) {
             System.out.println("Withdraw - amount cannot be 0 or negative.");
             return;
         }
-        if (storeCommand.equals("C")) {
-            Checking increaseBalance = new Checking(holder, balance);
-            allAccts.deposit(increaseBalance);
-        } else if (storeCommand.equals("CC")) {
-            CollegeChecking increaseBalance = new CollegeChecking(holder, balance, 0);
-            allAccts.deposit(increaseBalance);
-        } else if (storeCommand.equals("S")) {
-            Savings increaseBalance = new Savings(holder, balance, 0);
-            allAccts.deposit(increaseBalance);
-        } else if (storeCommand.equals("MM")) {
-            MoneyMarket increaseBalance = new MoneyMarket(holder, balance);
-            allAccts.deposit(increaseBalance);
+        if (splitInformation[1].equals("C")) {
+            Checking decreaseBalance = new Checking(holder, balance);
+            int findMatchingAccountIndex = findAccount(decreaseBalance);
+            if (findMatchingAccountIndex == -1) {
+                System.out.println(decreaseBalance.holder + " " + decreaseBalance.getType() + " is not in the database.");
+                return;
+            }
+            if (decreaseBalance.balance > allAccts.getAccounts()[findAccount(decreaseBalance)].balance) {
+                System.out.println("Withdraw - insufficient fund.");
+                return;
+            }
+            allAccts.withdraw(decreaseBalance);
+        } else if (splitInformation[1].equals("CC")) {
+            CollegeChecking decreaseBalance = new CollegeChecking(holder, balance, 0);
+            int findMatchingAccountIndex = findAccount(decreaseBalance);
+            if (findMatchingAccountIndex == -1) {
+                System.out.println(decreaseBalance.holder + " " + decreaseBalance.getType() + " is not in the database.");
+                return;
+            }
+            if (decreaseBalance.balance > allAccts.getAccounts()[findAccount(decreaseBalance)].balance) {
+                System.out.println("Withdraw - insufficient fund.");
+                return;
+            }
+            allAccts.withdraw(decreaseBalance);
+        } else if (splitInformation[1].equals("S")) {
+            Savings decreaseBalance = new Savings(holder, balance, 0);
+            int findMatchingAccountIndex = findAccount(decreaseBalance);
+            if (findMatchingAccountIndex == -1) {
+                System.out.println(decreaseBalance.holder + " " + decreaseBalance.getType() + " is not in the database.");
+                return;
+            }
+            if (decreaseBalance.balance > allAccts.getAccounts()[findAccount(decreaseBalance)].balance) {
+                System.out.println("Withdraw - insufficient fund.");
+                return;
+            }
+            allAccts.withdraw(decreaseBalance);
+        } else if (splitInformation[1].equals("MM")) {
+            MoneyMarket decreaseBalance = new MoneyMarket(holder, balance);
+            int findMatchingAccountIndex = findAccount(decreaseBalance);
+            if (findMatchingAccountIndex == -1) {
+                System.out.println(decreaseBalance.holder + " Money Market is not in the database.");
+                return;
+            }
+            if (decreaseBalance.balance > allAccts.getAccounts()[findAccount(decreaseBalance)].balance) {
+                System.out.println("Withdraw - insufficient fund.");
+                return;
+            }
+            allAccts.withdraw(decreaseBalance);
         }
         System.out.println("Withdraw - balance updated.");
     }
     public void run() {
+        System.out.println("Bank Teller is running.");
         Scanner readStandardInput = new Scanner(System.in);
         while (readStandardInput.hasNext()) {
             String storeLine = readStandardInput.nextLine();
@@ -207,11 +307,11 @@ public class BankTeller {
             if (splitInformation[0].equals("O")) {
                 openAccount(splitInformation);
             } else if (splitInformation[0].equals("C")) {
-                closeAccount(readStandardInput);
+                closeAccount(splitInformation);
             } else if (splitInformation[0].equals("D")) {
-                depositIntoAccount(readStandardInput);
+                depositIntoAccount(splitInformation);
             } else if (splitInformation[0].equals("W")) {
-                withdrawFromAccount(readStandardInput);
+                withdrawFromAccount(splitInformation);
             } else if (splitInformation[0].equals("P")) {
                 if (allAccts.getNumAcct() == 0){
                     System.out.println("Account Database is empty!");
@@ -219,7 +319,7 @@ public class BankTeller {
                 }
                 System.out.println("\n*list of accounts in the database*");
                 allAccts.print();
-                System.out.println("*end of list.\n");
+                System.out.println("*end of list*\n");
             } else if (splitInformation[0].equals("PT")) {
                 if (allAccts.getNumAcct() == 0){
                     System.out.println("Account Database is empty!");
@@ -247,8 +347,10 @@ public class BankTeller {
             } else if (splitInformation[0].equals("Q")) {
                 System.out.println("Bank Teller is terminated.");
                 break;
+            } else if (splitInformation[0].isEmpty()) {
+                continue;
             } else {
-                System.out.println("Invalid Command!");
+                System.out.println("Invalid command!");
             }
         }
         readStandardInput.close();
