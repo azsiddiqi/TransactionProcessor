@@ -109,14 +109,16 @@ public class AccountDatabase {
     }
 
     public void printByAccountType() {
-        for (int i = 1; i < numAcct; i++) {
-            Account saveAcct = accounts[i];
-            int j = i - 1;
-            while (j >= 0 && accounts[j].getType().compareTo(saveAcct.getType()) > 0) {
-                accounts[j + 1] = accounts[j];
-                j = j - 1;
+        for (int i = 0; i < numAcct - 1; i++) {
+            int minimumIndex = i;
+            for (int j = i + 1; j < numAcct; j++) {
+                if (accounts[j].getType().compareTo(accounts[minimumIndex].getType()) < 0) {
+                    minimumIndex = j;
+                }
             }
-            accounts[j + 1] = saveAcct;
+            Account swapPositions = accounts[minimumIndex];
+            accounts[minimumIndex] = accounts[i];
+            accounts[i] = swapPositions;
         }
         print();
     }
