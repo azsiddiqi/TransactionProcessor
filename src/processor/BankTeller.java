@@ -27,6 +27,12 @@ public class BankTeller {
         this.allAccts = new AccountDatabase();
     }
 
+    /**
+     Finds the account object that is passed into the method in the AccountDatabase object array and returns its index
+     within the array if it exists, or -1 if it doesn't exist.
+     @param account the account object that is being searched for in the AccountDatabase object array.
+     @return the index of the account object in the array if it exists, or -1 if it doesn't exist in the array.
+     */
     private int accountFinder(Account account) {
         for (int i = 0; i < allAccts.getNumAcct(); i++) {
             if (allAccts.getAccounts()[i].equals(account)) {
@@ -36,6 +42,14 @@ public class BankTeller {
         return NOT_FOUND;
     }
 
+    /**
+     Checks if an open account of the same type and Profile as the one passed into the method exists in the database.
+     Also checks to see if the account passed into the method is a checking account and a similar college checking
+     account already exists in the database, and vice versa.
+     @param account account object to be compared against the database to see if another matching account already
+     exists.
+     @return true if another matching account already exists, false otherwise.
+     */
     private boolean sameAccountsChecker(Account account) {
         for (int i = 0; i < allAccts.getNumAcct(); i++) {
             if (accountFinder(account) != NOT_FOUND && allAccts.getAccounts()[accountFinder(account)].closed == false) {
@@ -54,6 +68,14 @@ public class BankTeller {
         return false;
     }
 
+    /**
+     Checks if the information needed to open an account is valid by checking if there is enough data, if the date of
+     birth of the potential account holder is valid, if a valid amount of balance is given, and if the initial deposit
+     is positive.
+     @param splitInformation a string array containing the information obtained from standard input that is needed to
+     open an account.
+     @return true if the information given is valid, false if it is not valid.
+     */
     private boolean validInformationChecker(String[] splitInformation) {
         if (splitInformation[1].equals("C") || splitInformation[1].equals("MM")) {
             if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_OPENING_CHECKING_OR_MONEY_MARKET) {
@@ -86,6 +108,12 @@ public class BankTeller {
         return true;
     }
 
+    /**
+     Checks if the balance that is being deposited or withdrew is a valid amount, as well as if the balance is positive.
+     @param splitInformation a string array containing the information obtained from standard input that is needed to
+     deposit into or withdraw from an account in the database.
+     @return true if the deposited or withdrawn balance is valid, false otherwise.
+     */
     private boolean depositAndWithdrawBalanceChecker(String[] splitInformation) {
         double balance = 0;
         try {
@@ -104,6 +132,14 @@ public class BankTeller {
         return true;
     }
 
+    /**
+     Checks if the number of accounts in the database is 0 or not, and if not, then it prints these accounts in one of
+     many ways. It can print either by the order given, by account type, by fees and monthly interests based on the
+     account types, or by first updating the balances based on fees and monthly interests and then printing using by the
+     order given.
+     @param splitInformation a string array containing information from standard input, and it contains one of the
+     commands needed to print the accounts in the database.
+     */
     private void checkNumberOfAccountsAndPrint(String[] splitInformation) {
         if (allAccts.getNumAcct() == 0) {
             System.out.println("Account Database is empty!");
@@ -131,6 +167,11 @@ public class BankTeller {
         }
     }
 
+    /**
+     Opens or reopens an account of a specific type as long as the information obtained is valid.
+     @param splitInformation a string array containing the information obtained from standard input that is needed to
+     open an account.
+     */
     private void openAccount(String[] splitInformation) {
         if (!validInformationChecker(splitInformation)) {
             return;
@@ -170,6 +211,11 @@ public class BankTeller {
         }
     }
 
+    /**
+     Closes an account of a specific type as long as the information obtained is valid.
+     @param splitInformation a string array containing the information obtained from standard input that is needed to
+     close an account.
+     */
     private void closeAccount(String[] splitInformation) {
         if (splitInformation.length < VALID_NUMBER_OF_INFORMATION_FOR_CLOSING_ACCOUNT) {
             System.out.println("Missing data for closing an account.");
@@ -186,6 +232,10 @@ public class BankTeller {
         } else if (splitInformation[1].equals("MM")) {
             closeAccount = new MoneyMarket(holder, 0);
         }
+        if (accountFinder(closeAccount) == NOT_FOUND) {
+            System.out.println("Cannot close an account that doesn't exist.");
+            return;
+        }
         if (allAccts.getAccounts()[accountFinder(closeAccount)].closed == true) {
             System.out.println("Account is closed already.");
             return;
@@ -194,6 +244,11 @@ public class BankTeller {
         System.out.println("Account closed.");
     }
 
+    /**
+     Deposits money into an account of a specific type in the database as long as the information obtained is valid.
+     @param splitInformation a string array containing the information obtained from standard input that is needed to
+     deposit money into an account in the database.
+     */
     private void depositIntoAccount(String[] splitInformation) {
         if (!(depositAndWithdrawBalanceChecker(splitInformation))) {
             return;
@@ -221,6 +276,11 @@ public class BankTeller {
         System.out.println("Deposit - balance updated.");
     }
 
+    /**
+     Withdraws money from an account of a specific type in the database as long as the information obtained is valid.
+     @param splitInformation a string array containing the information obtained from standard input that is needed to
+     withdraw money from an account in the database.
+     */
     private void withdrawFromAccount(String[] splitInformation) {
         if (!(depositAndWithdrawBalanceChecker(splitInformation))) {
             return;
@@ -244,22 +304,22 @@ public class BankTeller {
             System.out.println(decreaseBalance.holder + " Money Market is not in the database.");
             return;
         }
-        if (decreaseBalance.balance > allAccts.getAccounts()[accountFinder(decreaseBalance)].balance) {
+        if (!(allAccts.withdraw(decreaseBalance))) {
             System.out.println("Withdraw - insufficient fund.");
             return;
         }
-        allAccts.withdraw(decreaseBalance);
         System.out.println("Withdraw - balance updated.");
     }
 
     /**
      Reads in commands and information from standard input, and modifies the AccountDatabase object based on these
-     instructions. If "O" is read followed by information, it will try to create, open, and add an account to the AccountDatabase
-     object if the information is valid. If "C" is read followed by information, it will try to close an account. If "D" is read,
-     it will try to deposit into an account. If "W" is read, it will try to withdraw from an account. If "P" is read,
-     it will try to print the accounts in the AccountDatabase object in the order given. If "PT" is read, it will try to
-     print by account type. If "PI" is read, it will try to print by fee and monthly interests. If "UB" is read, it will
-     update the balances for the accounts and print in the order given. If "Q" is read, the program will come to an end.
+     instructions. If "O" is read followed by information, it will try to create, open, and add an account to the
+     AccountDatabase object if the information is valid. If "C" is read followed by information, it will try to close
+     an account. If "D" is read, it will try to deposit into an account. If "W" is read, it will try to withdraw from an
+     account. If "P" is read, it will try to print the accounts in the AccountDatabase object in the order given. If
+     "PT" is read, it will try to print by account type. If "PI" is read, it will try to print by fees and monthly
+     interests based on the account types. If "UB" is read, it will update the balances for the accounts based on the
+     fees and monthly interests, and then print in the order given. If "Q" is read, the program will come to an end.
      */
     public void run() {
         System.out.println("Bank Teller is running.");

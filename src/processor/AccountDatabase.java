@@ -135,6 +135,9 @@ public class AccountDatabase {
      */
     public boolean withdraw(Account account) {
         Account findMatchingAccount = accounts[find(account)];
+        if (account.balance > findMatchingAccount.balance) {
+            return false;
+        }
         findMatchingAccount.withdraw(account.balance);
         if (findMatchingAccount instanceof MoneyMarket) {
             MoneyMarket updateWithdrawls = (MoneyMarket) findMatchingAccount;

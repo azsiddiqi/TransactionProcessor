@@ -16,7 +16,7 @@ public class MoneyMarket extends Savings {
     public static final int MONEY_MARKET_WAIVED_THRESHOLD = 2500;
     public static final int MONEY_MARKET_WITHDRAW_THRESHOLD = 3;
     public static final int MONEY_MARKET_FEE_THRESHOLD_MET = 0;
-    public static final int MONEY_MARKET_FEE_THRESHOLD_NOT_MET = 0;
+    public static final int MONEY_MARKET_FEE_THRESHOLD_NOT_MET = 10;
     public static final int LOYAL = 1;
 
     /**
