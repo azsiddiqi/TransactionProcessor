@@ -32,12 +32,12 @@ public class Profile {
      @param obj Profile object being compared to the original Profile object.
      @return true if both profile objects are equal, false if they are not.
      */
-    public boolean equals(Object obj){
-        if (obj instanceof Profile){
+    public boolean equals(Object obj) {
+        if (obj instanceof Profile) {
             Profile secondProfile = (Profile) obj;
             if (this.fname.toUpperCase().equals(secondProfile.fname.toUpperCase()) &&
                     this.lname.toUpperCase().equals(secondProfile.lname.toUpperCase()) &&
-                    this.dob.compareTo(secondProfile.dob) == 0){
+                    this.dob.compareTo(secondProfile.dob) == 0) {
                 return true;
             }
         }
