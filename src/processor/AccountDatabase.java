@@ -6,8 +6,9 @@ import java.text.DecimalFormat;
 /**
  This class creates an Account object based off of a Profile object and a double denoting the balance of an account.
  It also has an equals method to check to see if two accounts are the same and a toString method which returns the type
- of the account, the account holder, and the balance of the account. Along with this there are three abstract methods which
- extend to the Account class's subclasses that return the monthly interest, the monthly fee, and the type of the account.
+ of the account, the account holder, and the balance of the account. Along with this there are three abstract methods
+ which extend to the Account class's subclasses that return the monthly interest, the monthly fee, and the type of the
+ account.
  @author Azaan Siddiqi, Karan Patel
  */
 public class AccountDatabase {
