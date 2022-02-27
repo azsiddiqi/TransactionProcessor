@@ -42,7 +42,6 @@ public class Profile {
      @param obj Profile object being compared to the original Profile object.
      @return true if both profile objects are equal, false if they are not.
      */
-    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Profile) {
             Profile secondProfile = (Profile) obj;
