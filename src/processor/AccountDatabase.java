@@ -23,7 +23,8 @@ public class AccountDatabase {
 
 
     /**
-     *Creates an account database with an initial capacity of 4 and no accounts stored.
+     Creates an AccountDatabase object with the accounts array holding an initial capacity of 4 and the number of
+     accounts stored is 0.
      */
     public AccountDatabase() {
         this.accounts = new Account[INCREASE_ARRAY_CAPACITY];
@@ -51,8 +52,8 @@ public class AccountDatabase {
 
     /**
      Finds a specified account object within the database and returns its index within the array.
-     @param account account that is being searched for
-     @return index of the account within the array and -1 when the account is not found.
+     @param account the account that is being searched for within the accounts array.
+     @return index of the account within the array, and -1 when the account is not found.
      */
     private int find(Account account) {
         for (int i = 0; i < numAcct; i++) {
@@ -78,8 +79,8 @@ public class AccountDatabase {
 
     /**
      Opens a new account within the account database and also capable of reopening a previously closed account.
-     * @param account the account that is being opened.
-     * @return false if the account is being reopened and true if the account is being opened for the first time.
+     @param account the account that is being opened or reopened.
+     @return false if the account is being reopened and true if the account is being opened for the first time.
      */
     public boolean open(Account account) {
         if (find(account) != NOT_FOUND && accounts[find(account)].closed == true) {
@@ -108,7 +109,7 @@ public class AccountDatabase {
 
 
     /**
-     Closes an account within th account database and resets balance and special conditions.
+     Closes an account within the account database and resets balance and special conditions.
      @param account the account that is being closed.
      @return true if the account has been successfully closed.
      */
@@ -136,12 +137,19 @@ public class AccountDatabase {
     public void deposit(Account account) {
         Account findMatchingAccount = accounts[find(account)];
         findMatchingAccount.deposit(account.balance);
+        if (findMatchingAccount instanceof MoneyMarket) {
+            MoneyMarket updateStatus = (MoneyMarket) findMatchingAccount;
+            if (updateStatus.balance > MINIMUM_AMOUNT_FOR_MONEY_MARKET_LOYAL_CUSTOMER
+                    && updateStatus.loyalCustomer == false) {
+                updateStatus.loyalCustomer = true;
+            }
+        }
     }
 
 
     /**
-     Withdraws a specificed balance from a specified account.
-     @param account accountthis is being withdrawn from with the balance that is being withdrawn.
+     Withdraws a specified balance from a specified account.
+     @param account account that is being withdrawn from with the balance that is being withdrawn.
      @return false if insufficient funds and true otherwise.
      */
     public boolean withdraw(Account account) {
