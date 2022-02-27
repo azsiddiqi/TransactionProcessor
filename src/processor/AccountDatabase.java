@@ -22,13 +22,16 @@ public class AccountDatabase {
     public static final int INCREASE_ARRAY_CAPACITY = 4;
     public static final int MINIMUM_AMOUNT_FOR_MONEY_MARKET_LOYAL_CUSTOMER = 2500;
 
+
     /**
-     *Creates an account database with an initial capacity of 4 and no accounts stored.
+     Creates an account database object with the array having an initial capacity of 4 and the number of accounts
+     stored equals 0.
      */
     public AccountDatabase() {
         this.accounts = new Account[INCREASE_ARRAY_CAPACITY];
         this.numAcct = 0;
     }
+
 
     /**
      Returns array with all accounts in the database.
@@ -38,6 +41,7 @@ public class AccountDatabase {
         return this.accounts;
     }
 
+
     /**
      Returns number of accounts in the database.
      @return number of accounts in the database.
@@ -46,10 +50,11 @@ public class AccountDatabase {
         return this.numAcct;
     }
 
+
     /**
      Finds a specified account object within the database and returns its index within the array.
-     @param account account that is being searched for
-     @return index of the account within the array and -1 when the account is not found.
+     @param account account that is being searched for within the accounts array.
+     @return index of the account within the array, and -1 when the account is not found.
      */
     private int find(Account account) {
         for (int i = 0; i < numAcct; i++) {
@@ -59,6 +64,7 @@ public class AccountDatabase {
         }
         return NOT_FOUND;
     }
+
 
     /**
      Increases the size of the accounts array by 4.
@@ -71,10 +77,11 @@ public class AccountDatabase {
         accounts = increasedSize;
     }
 
+
     /**
      Opens a new account within the account database and also capable of reopening a previously closed account.
-     * @param account the account that is being opened.
-     * @return false if the account is being reopened and true if the account is being opened for the first time.
+     @param account the account that is being opened or reopened.
+     @return false if the account is being reopened and true if the account is being opened for the first time.
      */
     public boolean open(Account account) {
         if (find(account) != NOT_FOUND && accounts[find(account)].closed == true) {
@@ -101,8 +108,9 @@ public class AccountDatabase {
         return true;
     }
 
+
     /**
-     Closes an account within th account database and resets balance and special conditions.
+     Closes an account within the account database and resets balance and special conditions.
      @param account the account that is being closed.
      @return true if the account has been successfully closed.
      */
@@ -122,18 +130,20 @@ public class AccountDatabase {
         return true;
     }
 
+
     /**
      Deposits a specified balance into a specified account.
-     @param account account that is being deposited into with the balance that is to be deposited.
+     @param account the account that is being deposited into with the balance that is to be deposited.
      */
     public void deposit(Account account) {
         Account findMatchingAccount = accounts[find(account)];
         findMatchingAccount.deposit(account.balance);
     }
 
+
     /**
-     Withdraws a specificed balance from a specified account.
-     @param account accountthis is being withdrawn from with the balance that is being withdrawn.
+     Withdraws a specified balance from a specified account.
+     @param account the account that is being withdrawn from with the balance that is being withdrawn.
      @return false if insufficient funds and true otherwise.
      */
     public boolean withdraw(Account account) {
@@ -149,6 +159,7 @@ public class AccountDatabase {
         return true;
     } //return false if insufficient fund
 
+
     /**
      Print out accounts within the database in the order that they are currently in.
      */
@@ -157,6 +168,7 @@ public class AccountDatabase {
             System.out.println(accounts[i].toString());
         }
     }
+
 
     /**
      Print out the accounts in the database ordered by account type.
@@ -175,6 +187,7 @@ public class AccountDatabase {
         }
         print();
     }
+
 
     /**
      Print out the accounts within the database and the respective fees and monthly interest accrued for each account.
