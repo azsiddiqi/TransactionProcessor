@@ -245,16 +245,15 @@ public class BankTeller {
         } else if (splitInformation[1].equals("MM")) {
             closeAccount = new MoneyMarket(holder, 0);
         }
-        if (accountFinder(closeAccount) == NOT_FOUND) {
-            System.out.println("Cannot close an account that doesn't exist.");
-            return;
-        }
         if (allAccts.getAccounts()[accountFinder(closeAccount)].closed == true) {
             System.out.println("Account is closed already.");
             return;
         }
-        allAccts.close(closeAccount);
-        System.out.println("Account closed.");
+        if (!allAccts.close(closeAccount)) {
+            System.out.println("Cannot close an account that is not in the database.");
+        } else {
+            System.out.println("Account closed.");
+        }
     }
 
 
