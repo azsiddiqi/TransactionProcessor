@@ -1,14 +1,15 @@
 package processor;
 
+
 import java.text.DecimalFormat;
 
-
 /**
- This class creates an Account object based off of a Profile object and a double denoting the balance of an account.
- It also has an equals method to check to see if two accounts are the same and a toString method which returns the type
- of the account, the account holder, and the balance of the account. Along with this there are three abstract methods
- which extend to the Account class's subclasses that return the monthly interest, the monthly fee, and the type of the
- account.
+ This class creates an AccountDatabase object that serves as a database for bank accounts and provides various account
+ and database operations. The class contains a list of accounts and the number of accounts within the database. Along
+ with this there are methods which function as account and database operations. The class has functions such as finding
+ an account, growing the list of accounts, opening and closing specified accounts, depositing into and withdrawing from
+ specified accounts, and printing out all the accounts in the database with additional information or in a specific
+ order.
  @author Azaan Siddiqi, Karan Patel
  */
 public class AccountDatabase {
@@ -20,7 +21,6 @@ public class AccountDatabase {
     public static final int INCREASE_ARRAY_CAPACITY = 4;
     public static final int MINIMUM_AMOUNT_FOR_MONEY_MARKET_LOYAL_CUSTOMER = 2500;
 
-
     /**
      *Creates an account database with an initial capacity of 4 and no accounts stored.
      */
@@ -28,7 +28,6 @@ public class AccountDatabase {
         this.accounts = new Account[INCREASE_ARRAY_CAPACITY];
         this.numAcct = 0;
     }
-
 
     /**
      Returns array with all accounts in the database.
@@ -38,7 +37,6 @@ public class AccountDatabase {
         return this.accounts;
     }
 
-
     /**
      Returns number of accounts in the database.
      @return number of accounts in the database.
@@ -47,11 +45,10 @@ public class AccountDatabase {
         return this.numAcct;
     }
 
-
     /**
      Finds a specified account object within the database and returns its index within the array.
      @param account account that is being searched for
-     @return index of the account within the array, and -1 if the account is not found.
+     @return index of the account within the array and -1 when the account is not found.
      */
     private int find(Account account) {
         for (int i = 0; i < numAcct; i++) {
@@ -61,7 +58,6 @@ public class AccountDatabase {
         }
         return NOT_FOUND;
     }
-
 
     /**
      Increases the size of the accounts array by 4.
@@ -74,10 +70,9 @@ public class AccountDatabase {
         accounts = increasedSize;
     }
 
-
     /**
      Opens a new account within the account database and also capable of reopening a previously closed account.
-     * @param account the account that is being opened or reopened.
+     * @param account the account that is being opened.
      * @return false if the account is being reopened and true if the account is being opened for the first time.
      */
     public boolean open(Account account) {
@@ -105,10 +100,8 @@ public class AccountDatabase {
         return true;
     }
 
-
     /**
-     Closes an account within the account database, resets the balance to 0, removes loyal customer status, and sets the
-     number of withdrawls to 0 for money market accounts.
+     Closes an account within th account database and resets balance and special conditions.
      @param account the account that is being closed.
      @return true if the account has been successfully closed.
      */
@@ -128,7 +121,6 @@ public class AccountDatabase {
         return true;
     }
 
-
     /**
      Deposits a specified balance into a specified account.
      @param account account that is being deposited into with the balance that is to be deposited.
@@ -138,17 +130,13 @@ public class AccountDatabase {
         findMatchingAccount.deposit(account.balance);
     }
 
-
     /**
-     Withdraws a specified balance from a specified account.
-     @param account account that is being withdrawn from with the balance that is being withdrawn.
+     Withdraws a specificed balance from a specified account.
+     @param account accountthis is being withdrawn from with the balance that is being withdrawn.
      @return false if insufficient funds and true otherwise.
      */
     public boolean withdraw(Account account) {
         Account findMatchingAccount = accounts[find(account)];
-        if (account.balance > findMatchingAccount.balance) {
-            return false;
-        }
         findMatchingAccount.withdraw(account.balance);
         if (findMatchingAccount instanceof MoneyMarket) {
             MoneyMarket updateWithdrawls = (MoneyMarket) findMatchingAccount;
@@ -160,7 +148,6 @@ public class AccountDatabase {
         return true;
     } //return false if insufficient fund
 
-
     /**
      Print out accounts within the database in the order that they are currently in.
      */
@@ -169,7 +156,6 @@ public class AccountDatabase {
             System.out.println(accounts[i].toString());
         }
     }
-
 
     /**
      Print out the accounts in the database ordered by account type.
@@ -188,7 +174,6 @@ public class AccountDatabase {
         }
         print();
     }
-
 
     /**
      Print out the accounts within the database and the respective fees and monthly interest accrued for each account.
