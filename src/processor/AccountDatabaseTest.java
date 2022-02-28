@@ -1,13 +1,12 @@
 package processor;
 
-import org.junit.Test;
-
 import static org.junit.Assert.*;
+
 
 public class AccountDatabaseTest {
 
 
-    @Test
+    @org.junit.Test
     public void open_checking_account() {
         //Test 1: Tests the opening of a checking account
         AccountDatabase db1 = new AccountDatabase();
@@ -17,7 +16,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_college_checking_account() {
         //Test 2: Tests the opening of a college checking account
         AccountDatabase db2 = new AccountDatabase();
@@ -27,7 +26,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_savings_account() {
         //Test 3: Tests the opening of a savings account
         AccountDatabase db3 = new AccountDatabase();
@@ -37,7 +36,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_money_market_account() {
         //Test 4: Tests the opening of a money market account
         AccountDatabase db4 = new AccountDatabase();
@@ -47,7 +46,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_then_close_checking_account() {
         //Test 5: Tests the opening, then closing of a checking account
         AccountDatabase db5 = new AccountDatabase();
@@ -58,7 +57,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_then_close_college_checking_account() {
         //Test 6: Tests the opening, then closing of a college checking account
         AccountDatabase db6 = new AccountDatabase();
@@ -69,7 +68,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_then_close_savings_account() {
         //Test 7: Tests the opening, then closing of a savings account
         AccountDatabase db7 = new AccountDatabase();
@@ -80,7 +79,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_then_close_money_market_account() {
         //Test 8: Tests the opening, then closing of a money market account
         AccountDatabase db8 = new AccountDatabase();
@@ -91,7 +90,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_then_close_then_reopen_checking_account() {
         //Test 9: Tests the opening, then closing, then reopening of a checking account
         AccountDatabase db9 = new AccountDatabase();
@@ -103,7 +102,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_then_close_then_reopen_college_checking_account() {
         //Test 10: Tests the opening, then closing, then reopening of a college checking account
         AccountDatabase db10 = new AccountDatabase();
@@ -115,7 +114,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_then_close_then_reopen_savings_account() {
         //Test 11: Tests the opening, then closing, then reopening of a savings account
         AccountDatabase db11 = new AccountDatabase();
@@ -127,7 +126,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void open_then_close_then_reopen_money_market_account() {
         //Test 12: Tests the opening, then closing, then reopening of a money market account
         AccountDatabase db12 = new AccountDatabase();
@@ -139,7 +138,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void close_checking_account_not_in_database() {
         //Test 13: Tests the closing of a checking account that doesn't exist in the database
         AccountDatabase db13 = new AccountDatabase();
@@ -149,7 +148,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void close_college_checking_account_not_in_database() {
         //Test 14: Tests the closing of a college checking account that doesn't exist in the database
         AccountDatabase db14 = new AccountDatabase();
@@ -159,7 +158,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void close_savings_account_not_in_database() {
         //Test 15: Tests the closing of a savings account that doesn't exist in the database
         AccountDatabase db15 = new AccountDatabase();
@@ -169,7 +168,7 @@ public class AccountDatabaseTest {
     }
 
 
-    @Test
+    @org.junit.Test
     public void close_money_market_account() {
         //Test 16: Tests the closing of a money market account that doesn't exist in the database
         AccountDatabase db16 = new AccountDatabase();
